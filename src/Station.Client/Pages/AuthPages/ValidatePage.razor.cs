@@ -63,7 +63,7 @@ namespace Station.Client.Pages.AuthPages {
 			ClientUser userInfo = await UserService.GetUserInformation();
 			await State.Update( State.Authentication, userInfo );
 
-			// TODO: UriHelper.NavigateTo( IndexPageBase.Url );
+			UriHelper.NavigateTo( IndexPageBase.Url );
 		}
 
 		private void AppStateHasChanged( object sender, EventArgs e ) {

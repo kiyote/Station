@@ -28,7 +28,7 @@ namespace Station.Client.Pages.AuthPages {
 
 		protected override async Task OnInitAsync() {
 			await State.ClearState();
-			//TODO: UriHelper.NavigateTo( IndexPageBase.Url );
+			UriHelper.NavigateTo( IndexPageBase.Url );
 		}
 	}
 }

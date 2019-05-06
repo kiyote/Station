@@ -36,6 +36,7 @@ namespace Station.Client.Services {
 			if( value == default ) {
 				return "{}";
 			}
+
 			return JsonConvert.SerializeObject( value, _settings );
 		}
 	}

@@ -34,6 +34,7 @@ namespace Station.Client.State {
             string refreshToken,
             DateTime tokensExpireAt
         ) {
+			User = user;
             AccessToken = accessToken;
             RefreshToken = refreshToken;
             TokensExpireAt = tokensExpireAt;

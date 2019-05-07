@@ -6,6 +6,13 @@
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<ul>
+    @foreach (var message in Messages)
+    {
+        <li>@message</li>
+    }
+</ul>
+
 
 <button onclick=@GoToLogin>Log In</button>
+<button onclick=@SendMessage>Send</button>

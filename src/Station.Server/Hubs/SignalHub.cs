@@ -25,24 +25,26 @@ namespace Station.Server.Hubs {
 
 		public readonly static string Url = "/signalhub";
 
+		private readonly IContextInformation _context;
+
+		public SignalHub(IContextInformation contextInformation) {
+			_context = contextInformation;
+		}
+
 		public override async Task OnConnectedAsync() {
-			object username = Context.GetHttpContext().Items["User"];
-			await Clients.Others.SendAsync( "Send", $"{username} joined" );
+			await Clients.Others.SendAsync( "Send", $"{_context.Name} joined" );
 		}
 
 		public override async Task OnDisconnectedAsync( Exception ex ) {
-			object username = Context.GetHttpContext().Items["User"];
-			await Clients.Others.SendAsync( "Send", $"{username} left" );
+			await Clients.Others.SendAsync( "Send", $"{_context.Name} left" );
 		}
 
 		public Task Send( string message ) {
-			object username = Context.GetHttpContext().Items["User"];
-			return Clients.All.SendAsync( "Send", $"{username}: {message}" );
+			return Clients.All.SendAsync( "Send", $"{_context.Name}: {message}" );
 		}
 
 		public Task SendToOthers( string message ) {
-			object username = Context.GetHttpContext().Items["User"];
-			return Clients.Others.SendAsync( "Send", $"{username}: {message}" );
+			return Clients.Others.SendAsync( "Send", $"{_context.Name}: {message}" );
 		}
 
 		public Task SendToConnection( string connectionId, string message ) {

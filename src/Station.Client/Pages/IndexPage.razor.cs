@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Station.Client.Services;
-using Station.Client.State;
 
 namespace Station.Client.Pages {
 	public class IndexPageBase: ComponentBase, IDisposable {
@@ -16,6 +14,8 @@ namespace Station.Client.Pages {
 		[Inject] protected IConfig Config { get; set; }
 
 		[Inject] protected ISignalService SignalService { get; set; }
+
+		[Inject] protected IJsonConverter Json { get; set; }
 
 		protected List<string> Messages { get; set; }
 
@@ -39,7 +39,7 @@ namespace Station.Client.Pages {
 		}
 
 		public async Task SendMessage() {
-			await SignalService.Invoke( "Send", "Hello!" );
+			await SignalService.Invoke( "Send", "Hello, World!" );
 		}
 
 		private void HandleUserChat( string payload ) {

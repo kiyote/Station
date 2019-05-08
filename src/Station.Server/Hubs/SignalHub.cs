@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Station.Shared.Message;
 
 namespace Station.Server.Hubs {
 	[Authorize( JwtBearerDefaults.AuthenticationScheme )]
@@ -32,11 +33,15 @@ namespace Station.Server.Hubs {
 		}
 
 		public override async Task OnConnectedAsync() {
-			await Clients.Others.SendAsync( "Send", $"{_context.Name} joined" );
+			await Clients.Others.SendAsync( "ChatNotification", $"{_context.Name} joined" );
 		}
 
 		public override async Task OnDisconnectedAsync( Exception ex ) {
-			await Clients.Others.SendAsync( "Send", $"{_context.Name} left" );
+			await Clients.Others.SendAsync( "ChatNotification", $"{_context.Name} left" );
+		}
+
+		public Task ChatMessage( ChatMessage message ) {
+			return Clients.All.SendAsync( "ChatMessage", message );
 		}
 
 		public Task Send( string message ) {

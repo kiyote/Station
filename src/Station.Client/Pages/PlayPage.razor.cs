@@ -14,20 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Layouts;
-using Station.Client.State;
 
 namespace Station.Client.Pages {
-	public class MainLayoutBase: LayoutComponentBase {
+	public class PlayPageBase: ComponentBase {
 
-		[Inject] protected IAppState State { get; set; }
+		public const string Url = "/play";
 
-		[Inject] protected IConfig Config { get; set; }
-
-		public string LogInUrl {
-			get {
-				return $"{Config.LogInUrl}&redirect_uri={Config.RedirectUrl}";
-			}
-		}
 	}
 }

@@ -1,0 +1,12 @@
+﻿@inherits ChatBase
+
+<div id="chathistory" class="chathistory">
+    @foreach (string message in ChatHistory)
+    {
+        <div>@message</div>
+    }
+</div>
+<div>
+    <input id="textentry" class="form-control" type="text" bind=@ComposedText />
+    <button id="sendText" onclick=@SendTextClicked>Send</button>
+</div>

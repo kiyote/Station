@@ -13,21 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Layouts;
-using Station.Client.State;
+using Station.Client.Services;
 
 namespace Station.Client.Pages {
-	public class MainLayoutBase: LayoutComponentBase {
+	public class CanvasBase : ComponentBase, IDisposable {
 
-		[Inject] protected IAppState State { get; set; }
+		public void Dispose() {
 
-		[Inject] protected IConfig Config { get; set; }
-
-		public string LogInUrl {
-			get {
-				return $"{Config.LogInUrl}&redirect_uri={Config.RedirectUrl}";
-			}
 		}
 	}
 }

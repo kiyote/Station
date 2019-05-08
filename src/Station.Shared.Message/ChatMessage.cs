@@ -13,21 +13,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Layouts;
-using Station.Client.State;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Newtonsoft.Json;
 
-namespace Station.Client.Pages {
-	public class MainLayoutBase: LayoutComponentBase {
+namespace Station.Shared.Message {
+	public sealed class ChatMessage {
 
-		[Inject] protected IAppState State { get; set; }
-
-		[Inject] protected IConfig Config { get; set; }
-
-		public string LogInUrl {
-			get {
-				return $"{Config.LogInUrl}&redirect_uri={Config.RedirectUrl}";
-			}
+		[JsonConstructor]
+		public ChatMessage(
+			string name,
+			string text
+		) {
+			Name = name;
+			Text = text;
 		}
+
+		public string Name { get; }
+
+		public string Text { get; }
 	}
 }

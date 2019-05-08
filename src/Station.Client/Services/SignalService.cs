@@ -24,11 +24,13 @@ namespace Station.Client.Services {
 	internal sealed class SignalService : ISignalService {
 
 		private readonly HubConnection _connection;
+		private bool _connected;
 
 		public SignalService(
 			IAccessTokenProvider accessTokenProvider,
 			IJSRuntime jsRuntime
 		) {
+			_connected = false;
 			HubConnectionBuilder factory = new HubConnectionBuilder();
 
 			factory.WithUrlBlazor( "/signalhub", jsRuntime, options: opt => {
@@ -49,7 +51,10 @@ namespace Station.Client.Services {
 		}
 
 		async Task ISignalService.Connect() {
-			await _connection.StartAsync();
+			if (!_connected) {
+				_connected = true;
+				await _connection.StartAsync();
+			}
 		}
 
 		async Task ISignalService.Invoke<T>( string name, T payload ) {

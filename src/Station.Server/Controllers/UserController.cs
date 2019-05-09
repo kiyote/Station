@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Station.Server.Managers;
+using Station.Server.Model;
 using Station.Shared.Message;
 using Station.Shared.Model;
 
@@ -58,7 +59,7 @@ namespace Station.Server.Controllers {
 
 		[HttpGet("{userId}")]
 		public async Task<ActionResult<ClientUser>> GetUserInformation( string userId ) {
-			var result = await _userManager.GetUser( userId );
+			var result = await _userManager.GetUser( new Id<User>( userId ));
 
 			if( result != default ) {
 				return Ok( result );
@@ -66,6 +67,24 @@ namespace Station.Server.Controllers {
 			} else {
 				return NotFound();
 			}
+		}
+
+		[HttpGet("{userId}/player")]
+		public async Task<ActionResult<ClientPlayer>> GetUserPlayer( string userId ) {
+			ClientPlayer result = await _userManager.GetPlayerByUserId( new Id<User>( userId ));
+
+			if (result == default) {
+				return NotFound();
+			}
+
+			return Ok( result );
+		}
+
+		[HttpPost( "{userId}/player" )]
+		public async Task<ActionResult<ClientPlayer>> CreatePlayer( string userId, [FromBody] CreatePlayerRequest request ) {
+			ClientPlayer result = await _userManager.CreatePlayer( new Id<User>( userId ), request.Name );
+
+			return Ok( result );
 		}
 
 		[HttpPost( "avatar" )]

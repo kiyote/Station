@@ -20,6 +20,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.Primitives;
 using Station.Server.Model;
+using Station.Server.Repository;
 using Station.Server.Service;
 using Station.Shared.Model;
 using Image = Station.Server.Model.Image;
@@ -30,13 +31,16 @@ namespace Station.Server.Managers {
 
 		private readonly IIdentificationService _identificationService;
 		private readonly IImageService _imageService;
+		private readonly IPlayerRepository _playerRepository;
 
 		public UserManager(
 			IIdentificationService identificationService,
-			IImageService imageService
+			IImageService imageService,
+			IPlayerRepository playerRepository
 		) {
 			_identificationService = identificationService;
 			_imageService = imageService;
+			_playerRepository = playerRepository;
 		}
 
 		public async Task<ClientUser> RecordLogin( string username ) {
@@ -45,14 +49,13 @@ namespace Station.Server.Managers {
 			return ToClientUser( user, await GetAvatarUrl( user ) );
 		}
 
-		public async Task<ClientUser> GetUser( string userId ) {
-			var id = new Id<User>( userId );
-			User user = await _identificationService.GetUser( id );
+		public async Task<ClientUser> GetUser( Id<User> userId ) {
+			User user = await _identificationService.GetUser( userId );
 
 			return ToClientUser( user, await GetAvatarUrl( user ) );
 		}
 
-		public async Task<string> SetAvatar( string userId, string contentType, string content ) {
+		public async Task<string> SetAvatar( Id<User> userId, string contentType, string content ) {
 			using( var image = LaborImage.Load( Convert.FromBase64String( content ) ) ) {
 				if( ( image.Width != 256 ) || ( image.Height != 256 ) ) {
 					var options = new ResizeOptions() {
@@ -65,14 +68,41 @@ namespace Station.Server.Managers {
 			}
 
 			// Not a mistake, we're reusing the userId as the imageId for their avatar
-			var id = new Id<Image>( userId );
+			var id = new Id<Image>( userId.Value );
 			Image avatar = await _imageService.Update( id, contentType, content );
 			if (avatar == default) {
 				throw new InvalidOperationException();
 			}
-			await _identificationService.SetAvatarStatus( new Id<User>( userId ), true );
+			await _identificationService.SetAvatarStatus( userId, true );
 
 			return avatar.Url;
+		}
+
+		public async Task<ClientPlayer> GetPlayer( Id<Player> playerId ) {
+			Player player = await _playerRepository.GetByPlayerId( playerId );
+			return ToClientPlayer( player );
+		}
+
+		public async Task<ClientPlayer> GetPlayerByUserId( Id<User> userId ) {
+			Player player = await _playerRepository.GetByUserId( userId );
+			return ToClientPlayer( player );
+		}
+
+		public async Task<ClientPlayer> CreatePlayer( Id<User> userId, string name ) {
+			Id<Player> playerId = new Id<Player>();
+			Player player = await _playerRepository.Create( playerId, userId, name );
+
+			return ToClientPlayer( player );
+		}
+
+		private static ClientPlayer ToClientPlayer( Player player ) {
+			if (player == default) {
+				return default;
+			}
+
+			return new ClientPlayer(
+				new Id<ClientPlayer>( player.Id.Value ),
+				player.Name );
 		}
 
 		private static ClientUser ToClientUser( User user, string avatarUrl ) {

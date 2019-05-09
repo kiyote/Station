@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 using Microsoft.AspNetCore.Http;
+using Station.Server.Model;
+using Station.Shared.Model;
 
 namespace Station.Server {
 	internal sealed class ContextInformation : IContextInformation {
@@ -38,10 +40,34 @@ namespace Station.Server {
 			}
 		}
 
-		public string UserId {
+		public Id<User> UserId {
 			get {
 				HttpContext context = _httpContextAccessor.HttpContext;
-				return ( context.Items["UserId"] as string ) ?? "";
+				string userIdValue = context.Items["UserId"] as string;
+				if( !string.IsNullOrWhiteSpace( userIdValue ) ) {
+					return new Id<User>( userIdValue );
+				}
+
+				return default;
+			}
+		}
+
+		public Id<Player> PlayerId {
+			get {
+				HttpContext context = _httpContextAccessor.HttpContext;
+				string playerIdValue = context.Items["PlayerId"] as string;
+				if( !string.IsNullOrWhiteSpace( playerIdValue ) ) {
+					return new Id<Player>( playerIdValue );
+				}
+
+				return default;
+			}
+		}
+
+		public string PlayerName {
+			get {
+				HttpContext context = _httpContextAccessor.HttpContext;
+				return ( context.Items["PlayerName"] as string ) ?? "";
 			}
 		}
 	}

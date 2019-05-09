@@ -24,6 +24,7 @@ namespace Station.Server.Repository {
 			services.AddSingleton<IImageRepository, ImageRepository>();
 			services.AddSingleton<IUserRepository, UserRepository>();
 			services.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
+			services.AddSingleton<IPlayerRepository, PlayerRepository>();
 
 			return services;
 		}

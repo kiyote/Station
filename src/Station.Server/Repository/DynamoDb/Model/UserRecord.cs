@@ -24,14 +24,12 @@ namespace Station.Server.Repository.DynamoDb.Model {
 #endif
 	internal sealed class UserRecord {
 
-		private const string ItemType = "User-";
-		public readonly static string Active = "Active";
+		public const string ItemType = "User-";
 
 		public UserRecord() {
 			UserId = "";
 			Username = "";
 			Name = "";
-			Status = "";
 		}
 
 		[DynamoDBHashKey( "PK" )]
@@ -71,9 +69,6 @@ namespace Station.Server.Repository.DynamoDb.Model {
 
 		[DynamoDBProperty("PreviousLogin")]
 		public DateTime? PreviousLogin { get; set; }
-
-		[DynamoDBProperty( "Status" )]
-		public string Status { get; set; }
 
 		public static string GetKey(string userId) {
 			return $"{ItemType}{userId}";

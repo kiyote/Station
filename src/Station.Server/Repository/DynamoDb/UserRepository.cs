@@ -91,7 +91,6 @@ namespace Station.Server.Repository.DynamoDb {
 				HasAvatar = false,
 				LastLogin = lastLogin.ToUniversalTime(),
 				PreviousLogin = default,
-				Status = UserRecord.Active,
 				Name = name
 			};
 			await _context.SaveAsync( user );

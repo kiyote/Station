@@ -70,6 +70,24 @@ namespace Station.Client.Services {
 
 			return response.Url;
 		}
-		
+
+		async Task<ClientPlayer> IUserApiService.GetPlayer() {
+			_http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", await _accessTokenProvider.GetJwtToken() );
+			ClientPlayer response = await _http.GetJsonAsync( $@"{_config.Host}/api/user/player",
+				( s ) => { return _json.Deserialize<ClientPlayer>( s ); } );
+
+			return response;
+		}
+
+		async Task<ClientPlayer> IUserApiService.CreatePlayer( string name ) {
+			CreatePlayerRequest request = new CreatePlayerRequest( name );
+			_http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", await _accessTokenProvider.GetJwtToken() );
+			ClientPlayer response = await _http.PostJsonAsync( $@"{_config.Host}/api/user/player", request,
+				( r ) => { return _json.Serialize( r );  },
+				( s ) => { return _json.Deserialize<ClientPlayer>( s ); } );
+
+			return response;
+		}
+
 	}
 }

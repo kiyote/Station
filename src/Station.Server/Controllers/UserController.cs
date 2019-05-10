@@ -69,9 +69,9 @@ namespace Station.Server.Controllers {
 			}
 		}
 
-		[HttpGet("{userId}/player")]
-		public async Task<ActionResult<ClientPlayer>> GetUserPlayer( string userId ) {
-			ClientPlayer result = await _userManager.GetPlayerByUserId( new Id<User>( userId ));
+		[HttpGet("player")]
+		public async Task<ActionResult<ClientPlayer>> GetUserPlayer() {
+			ClientPlayer result = await _userManager.GetPlayerByUserId( _contextInformation.UserId );
 
 			if (result == default) {
 				return NotFound();
@@ -80,9 +80,9 @@ namespace Station.Server.Controllers {
 			return Ok( result );
 		}
 
-		[HttpPost( "{userId}/player" )]
-		public async Task<ActionResult<ClientPlayer>> CreatePlayer( string userId, [FromBody] CreatePlayerRequest request ) {
-			ClientPlayer result = await _userManager.CreatePlayer( new Id<User>( userId ), request.Name );
+		[HttpPost( "player" )]
+		public async Task<ActionResult<ClientPlayer>> CreatePlayer( [FromBody] CreatePlayerRequest request ) {
+			ClientPlayer result = await _userManager.CreatePlayer( _contextInformation.UserId, request.Name );
 
 			return Ok( result );
 		}

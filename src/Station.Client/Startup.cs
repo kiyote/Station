@@ -31,6 +31,7 @@ namespace Station.Client {
 			services.AddSingleton<IStateStorage, StateStorage>();
 			services.AddSingleton<IAppState, AppState>();
 			services.AddSingleton<IUserApiService, UserApiService>();
+			services.AddSingleton<IPlayerApiService, PlayerApiService>();
 		}
 
 		public void Configure( IComponentsApplicationBuilder app ) {

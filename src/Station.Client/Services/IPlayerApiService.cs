@@ -13,19 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-using Station.Server.Model;
+using System;
+using System.Threading.Tasks;
 using Station.Shared.Model;
 
-namespace Station.Server {
-	public interface IContextInformation {
-		string Username { get; }
+namespace Station.Client.Services {
+	public interface IPlayerApiService {
 
-		string Name { get; }
-
-		Id<User> UserId { get; }
-
-		Id<Player> PlayerId { get; }
-
-		string PlayerName { get; }
+		Task<ClientPlayer> GetPlayer( Id<ClientPlayer> playerId );
 	}
 }

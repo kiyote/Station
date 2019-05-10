@@ -23,6 +23,10 @@ namespace Station.Client.Services {
 
 		Task<string> SetAvatar( string contentType, string content );
 
-		Task RecordLogin();		
+		Task RecordLogin();
+
+		Task<ClientPlayer> GetPlayer();
+
+		Task<ClientPlayer> CreatePlayer( string name );
 	}
 }

@@ -29,6 +29,7 @@ namespace Station.Client.State {
 			_storage = storage;
 
 			Authentication = new AuthenticationState();
+			Game = new GameState();
 		}
 
 		public event EventHandler OnStateChanged;
@@ -37,14 +38,18 @@ namespace Station.Client.State {
 
 		public IAuthenticationState Authentication { get; private set; }
 
+		public IGameState Game { get; private set; }
+
 		public async Task Initialize() {
 			Authentication = await _storage.Get<AuthenticationState>( "State::Authentication" ) ?? new AuthenticationState();
+			Game = await _storage.Get<GameState>( "State::Game" ) ?? new GameState();
 			IsInitialized = true;
 			OnStateChanged?.Invoke( this, EventArgs.Empty );
 		}
 
 		public async Task ClearState() {
 			await _storage.Set( "State::Authentication", "" );
+			await _storage.Set( "State:Game", "" );
 			await Initialize();
 		}
 
@@ -57,6 +62,12 @@ namespace Station.Client.State {
 		public async Task Update( IAuthenticationState initial, string accessToken, string refreshToken, DateTime tokensExpireAt ) {
 			Authentication = new AuthenticationState( initial.User, accessToken, refreshToken, tokensExpireAt );
 			await _storage.Set( "State::Authentication", Authentication );
+			OnStateChanged?.Invoke( this, EventArgs.Empty );
+		}
+
+		public async Task Update( IGameState initial, ClientPlayer player ) {
+			Game = new GameState( player );
+			await _storage.Set( "State::Game", Game );
 			OnStateChanged?.Invoke( this, EventArgs.Empty );
 		}
 	}

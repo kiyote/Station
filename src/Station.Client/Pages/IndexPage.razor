@@ -2,4 +2,14 @@
 @inherits IndexPageBase
 @layout MainLayout
 
-<button onclick=@Play>Play</button>
+@if (State.Authentication.IsAuthenticated)
+{
+    @if (State.Game.Player != default)
+    {
+        <button onclick=@Play>Play</button>
+    }
+    else
+    {
+        <CreatePlayer></CreatePlayer>
+    }
+}

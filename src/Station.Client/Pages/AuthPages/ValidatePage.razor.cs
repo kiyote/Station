@@ -48,7 +48,7 @@ namespace Station.Client.Pages.AuthPages {
 			await State.Initialize();
 
 			string code = UriHelper.GetParameter( "code" );
-			Messages.Add( "...retrieving token..." );
+			Update( "...retrieving token...", 20 );
 			AuthorizationToken tokens = await TokenService.GetToken( code );
 			if( tokens == default ) {
 				//TODO: Do something here
@@ -56,12 +56,16 @@ namespace Station.Client.Pages.AuthPages {
 			}
 			await State.Update( State.Authentication, tokens.access_token, tokens.refresh_token, DateTime.UtcNow.AddSeconds( tokens.expires_in ) );
 
-			Update( "...recording login...", 50 );
+			Update( "...recording login...", 40 );
 			await UserService.RecordLogin();
 
-			Update( "...loading user information...", 75 );
+			Update( "...loading user information...", 60 );
 			ClientUser userInfo = await UserService.GetUserInformation();
 			await State.Update( State.Authentication, userInfo );
+
+			Update( "...loading player information...", 80 );
+			ClientPlayer player = await UserService.GetPlayer();
+			await State.Update( State.Game, player );
 
 			UriHelper.NavigateTo( IndexPageBase.Url );
 		}

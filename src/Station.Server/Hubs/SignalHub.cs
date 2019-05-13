@@ -33,23 +33,24 @@ namespace Station.Server.Hubs {
 		}
 
 		public override async Task OnConnectedAsync() {
-			await Clients.Others.SendAsync( "ChatNotification", $"{_context.Name} joined" );
+			await Clients.Others.SendAsync( "ChatNotification", $"{_context.PlayerName} joined" );
 		}
 
 		public override async Task OnDisconnectedAsync( Exception ex ) {
-			await Clients.Others.SendAsync( "ChatNotification", $"{_context.Name} left" );
+			await Clients.Others.SendAsync( "ChatNotification", $"{_context.PlayerName} left" );
 		}
 
 		public Task ChatMessage( ChatMessage message ) {
-			return Clients.All.SendAsync( "ChatMessage", message );
+			ChatMessage msg = new ChatMessage( _context.PlayerName, message.Text );
+			return Clients.All.SendAsync( "ChatMessage", msg );
 		}
 
 		public Task Send( string message ) {
-			return Clients.All.SendAsync( "Send", $"{_context.Name}: {message}" );
+			return Clients.All.SendAsync( "Send", $"{_context.PlayerName}: {message}" );
 		}
 
 		public Task SendToOthers( string message ) {
-			return Clients.Others.SendAsync( "Send", $"{_context.Name}: {message}" );
+			return Clients.Others.SendAsync( "Send", $"{_context.PlayerName}: {message}" );
 		}
 
 		public Task SendToConnection( string connectionId, string message ) {

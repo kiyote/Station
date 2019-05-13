@@ -26,6 +26,8 @@ namespace Station.Client.State {
 
 		IAuthenticationState Authentication { get; }
 
+		IGameState Game { get; }
+
 		Task Initialize();
 
 		Task ClearState();
@@ -33,5 +35,7 @@ namespace Station.Client.State {
 		Task Update( IAuthenticationState initial, ClientUser user );
 
 		Task Update( IAuthenticationState initial, string accessToken, string refreshToken, DateTime tokensExpireAt );
+
+		Task Update( IGameState initial, ClientPlayer player );
 	}
 }

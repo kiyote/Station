@@ -21,8 +21,10 @@ namespace Station.Client.Pages {
 		protected async Task CreatePlayerClicked() {
 			if (!string.IsNullOrWhiteSpace(PlayerName)) {
 				ClientPlayer player = await UserService.CreatePlayer( PlayerName );
-				await State.Update( State.Game, player );
-				UriHelper.NavigateTo( PlayPageBase.Url );
+				if (player != default) {
+					await State.Update( State.Game, player );
+					UriHelper.NavigateTo( PlayPageBase.Url );
+				}
 			}
 		}
 	}

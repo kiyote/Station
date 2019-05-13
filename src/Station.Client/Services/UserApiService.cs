@@ -73,10 +73,16 @@ namespace Station.Client.Services {
 
 		async Task<ClientPlayer> IUserApiService.GetPlayer() {
 			_http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", await _accessTokenProvider.GetJwtToken() );
-			ClientPlayer response = await _http.GetJsonAsync( $@"{_config.Host}/api/user/player",
-				( s ) => { return _json.Deserialize<ClientPlayer>( s ); } );
+			try {
+				ClientPlayer response = await _http.GetJsonAsync( $@"{_config.Host}/api/user/player",
+					( s ) => { return _json.Deserialize<ClientPlayer>( s ); } );
 
-			return response;
+				return response;
+
+			} catch (HttpRequestException) {
+
+				return default;
+			}
 		}
 
 		async Task<ClientPlayer> IUserApiService.CreatePlayer( string name ) {

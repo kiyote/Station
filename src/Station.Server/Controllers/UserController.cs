@@ -49,24 +49,22 @@ namespace Station.Server.Controllers {
 		public async Task<ActionResult<ClientUser>> GetUserInformation() {
 			var result = await _userManager.GetUser( _contextInformation.UserId );
 
-			if( result != default ) {
-				return Ok( result );
-
-			} else {
+			if( result == default ) {
 				return NotFound();
 			}
+
+			return Ok( result );
 		}
 
 		[HttpGet("{userId}")]
 		public async Task<ActionResult<ClientUser>> GetUserInformation( string userId ) {
 			var result = await _userManager.GetUser( new Id<User>( userId ));
 
-			if( result != default ) {
-				return Ok( result );
-
-			} else {
+			if( result == default ) {
 				return NotFound();
 			}
+
+			return Ok( result );
 		}
 
 		[HttpGet("player")]

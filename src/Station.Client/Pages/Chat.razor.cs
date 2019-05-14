@@ -48,11 +48,16 @@ namespace Station.Client.Pages {
 		}
 
 		protected async Task SendTextClicked() {
-			Console.WriteLine( "ComposedText: " + ComposedText );
 			if (!string.IsNullOrWhiteSpace(ComposedText)) {
 				ChatMessage message = new ChatMessage( State.Authentication.User.Name, ComposedText );
 				await Signal.Invoke( "ChatMessage", message );
 				ComposedText = "";
+			}
+		}
+
+		protected async Task TextEntryKeyPressed( UIKeyboardEventArgs args ) {
+			if( string.Equals( args.Code, "Enter", StringComparison.OrdinalIgnoreCase ) ) {
+				await SendTextClicked();
 			}
 		}
 

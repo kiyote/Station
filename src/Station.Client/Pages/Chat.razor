@@ -13,7 +13,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <input id="textentry" class="form-control" type="text" bind=@ComposedText autocomplete="off" />
+                <input id="textentry" class="form-control" type="text" autocomplete="off" bind-value-oninput=@ComposedText onkeypress=@TextEntryKeyPressed />
             </div>
             <div class="col-md-auto">
                 <button id="sendText" class="btn btn-primary" onclick=@SendTextClicked>Send</button>

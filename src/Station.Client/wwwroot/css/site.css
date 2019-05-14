@@ -30,6 +30,7 @@ app {
 }
 
 .chathistory {
-    height: 200px;
+    height: 250px;
     overflow-y: scroll;
+    overflow-x: visible;
 }

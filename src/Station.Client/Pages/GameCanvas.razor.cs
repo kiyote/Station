@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Components;
 using Station.Client.Services;
 
 namespace Station.Client.Pages {
-	public class CanvasBase : ComponentBase, IDisposable {
+	public class GameCanvasBase : ComponentBase, IDisposable {
 
 		public void Dispose() {
 

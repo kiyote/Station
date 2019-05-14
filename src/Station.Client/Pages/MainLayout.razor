@@ -1,15 +1,26 @@
 ﻿@inherits MainLayoutBase
 
 <div class="main">
-    <div class="top-row px-4">
+    <div class="navbar navbar-light bg-light">
+        <ul class="navbar-nav mr-auto">
+            <li>
+                <span>Station</span>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
         @if (State.Authentication.IsAuthenticated)
         {
-            <span class="ml-md-auto">@State.Authentication.User.Name</span>
+            <li class="nav-item">
+                <span>@State.Authentication.User.Name</span>
+            </li>
         }
         else
         {
-            <a href=@LogInUrl class="ml-md-auto">Log In</a>
+            <li class="nav-item">
+                <a href=@LogInUrl class="nav-link">Log In</a>
+            </li>
         }
+        </ul>
     </div>
 
     <div class="content px-4">

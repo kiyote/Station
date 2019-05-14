@@ -65,10 +65,10 @@ namespace Station.Client.Pages {
 		}
 
 		private void AddChatMessage( string message ) {
-			if( ChatHistory.Count() + 1 == 100 ) {
-				ChatHistory.RemoveAt( 0 );
+			if (ChatHistory.Count() + 1 >= 100) {
+				ChatHistory = ChatHistory.Take( 100 ).ToList();
 			}
-			ChatHistory.Add( message );
+			ChatHistory.Insert( 0, message );
 			StateHasChanged();
 		}
 	}

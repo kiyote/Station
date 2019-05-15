@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2018-2019 Todd Lang
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,14 +42,14 @@ namespace Station.Client.Pages {
 
 		protected override async Task OnInitAsync() {
 			ChatHistory = new List<string>();
-			_chatNotificationHandler = Signal.Register<string>( "ChatNotification", HandleChatNotification );
-			_chatMessageHandler = Signal.Register<ChatMessage>( "ChatMessage", HandleChatMessage );
+			_chatNotificationHandler = Signal.Register<ChatNotification>( "ChatNotification", HandleChatNotification );
+			_chatMessageHandler = Signal.Register<ChatText>( "ChatMessage", HandleChatMessage );
 			await Signal.Connect();
 		}
 
 		protected async Task SendTextClicked() {
 			if (!string.IsNullOrWhiteSpace(ComposedText)) {
-				ChatMessage message = new ChatMessage( State.Authentication.User.Name, ComposedText );
+				ChatText message = new ChatText( State.Authentication.User.Name, ComposedText );
 				await Signal.Invoke( "ChatMessage", message );
 				ComposedText = "";
 			}
@@ -61,11 +61,11 @@ namespace Station.Client.Pages {
 			}
 		}
 
-		private void HandleChatNotification( string message ) {
-			AddChatMessage( message );
+		private void HandleChatNotification( ChatNotification message ) {
+			AddChatMessage( message.Text );
 		}
 
-		private void HandleChatMessage( ChatMessage message ) {
+		private void HandleChatMessage( ChatText message ) {
 			AddChatMessage( $"{message.Name}: {message.Text}" );
 		}
 

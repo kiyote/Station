@@ -24,7 +24,6 @@
     <ProjectReference Include="..\Station.Shared.Message\Station.Shared.Message.csproj" />
     <ProjectReference Include="..\Station.Shared.Model\Station.Shared.Model.csproj" />
     <ProjectReference Include="..\Station.Client\Station.Client.csproj" />
-    <ProjectReference Include="..\Station.Shared\Station.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2018-2019 Todd Lang
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,13 +40,9 @@ namespace Station.Server.Hubs {
 			await Clients.Others.SendAsync( "ChatNotification", $"{_context.PlayerName} left" );
 		}
 
-		public Task ChatMessage( ChatMessage message ) {
-			ChatMessage msg = new ChatMessage( _context.PlayerName, message.Text );
+		public Task ChatMessage( ChatText message ) {
+			ChatText msg = new ChatText( _context.PlayerName, message.Text );
 			return Clients.All.SendAsync( "ChatMessage", msg );
-		}
-
-		public Task Send( string message ) {
-			return Clients.All.SendAsync( "Send", $"{_context.PlayerName}: {message}" );
 		}
 
 		public Task SendToOthers( string message ) {

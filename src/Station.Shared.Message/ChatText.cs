@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2018-2019 Todd Lang
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +16,19 @@ limitations under the License.
 using Newtonsoft.Json;
 
 namespace Station.Shared.Message {
-	public sealed class CreatePlayerRequest {
+	public sealed class ChatText {
 
 		[JsonConstructor]
-		public CreatePlayerRequest(
-			string name
+		public ChatText(
+			string name,
+			string text
 		) {
 			Name = name;
+			Text = text;
 		}
 
 		public string Name { get; }
+
+		public string Text { get; }
 	}
 }

@@ -1,0 +1,8 @@
+c:\code\Station\Station.Shared\bin\Debug\netstandard2.0\Station.Shared.deps.json
+c:\code\Station\Station.Shared\bin\Debug\netstandard2.0\Station.Shared.dll
+c:\code\Station\Station.Shared\bin\Debug\netstandard2.0\Station.Shared.pdb
+c:\code\Station\Station.Shared\obj\Debug\netstandard2.0\Station.Shared.csproj.CoreCompileInputs.cache
+c:\code\Station\Station.Shared\obj\Debug\netstandard2.0\Station.Shared.AssemblyInfoInputs.cache
+c:\code\Station\Station.Shared\obj\Debug\netstandard2.0\Station.Shared.AssemblyInfo.cs
+c:\code\Station\Station.Shared\obj\Debug\netstandard2.0\Station.Shared.dll
+c:\code\Station\Station.Shared\obj\Debug\netstandard2.0\Station.Shared.pdb

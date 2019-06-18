@@ -39,9 +39,10 @@ namespace Station.Client.Pages {
 		}
 
 		[JSInvokable]
-		public async Task AnimCallback(int interval) {
-			await _render.Fill();
-			await _render.DrawText( "Hello world!", 15, 30 );
+		public Task AnimCallback(int interval) {
+			//await _render.Fill();
+			//await _render.DrawText( "Hello world!", 15, 30 );
+			return Task.CompletedTask;
 		}
 
 		[JSInvokable]

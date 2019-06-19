@@ -1,9 +1,9 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Station.Client.Services;
+using Station.Client.State;
 
 namespace Station.Client.Pages {
 	public class PlayBase : ComponentBase, IDisposable {
@@ -12,7 +12,14 @@ namespace Station.Client.Pages {
 			Height = 600;
 			JsRuntime = NullJSRuntime.Instance;
 			_render = NullRender.Instance;
+			State = NullState.Instance;
 		}
+
+		[Inject] protected IJSRuntime JsRuntime { get; set; }
+
+		[Inject] protected IAppState State { get; set; }
+
+		[Inject] protected ISignalService Signal { get; set; }
 
 		protected int Width { get; set; }
 
@@ -20,11 +27,25 @@ namespace Station.Client.Pages {
 
 		protected ElementRef? Canvas { get; set; }
 
-		[Inject] protected IJSRuntime JsRuntime { get; set; }
-
 		private IRender _render;
 
 		private int _callbackContext;
+
+		protected override async Task OnInitAsync() {
+			if (State == null) {
+				return;
+			}
+
+			if (State.DisplayWidth < State.DisplayHeight) {
+				Width = State.DisplayWidth - ( State.DisplayWidth % 100 );
+				Height = (int)((float)Width * 9.0f / 16.0f);
+			} else {
+				Height = State.DisplayHeight - ( State.DisplayHeight % 100 );
+				Width = (int)( (float)Height * 16.0f / 9.0f );
+			}
+
+			await Signal.Connect();
+		}
 
 		protected override async Task OnAfterRenderAsync() {
 			if (Canvas is null) {
@@ -39,10 +60,9 @@ namespace Station.Client.Pages {
 		}
 
 		[JSInvokable]
-		public Task AnimCallback(int interval) {
-			//await _render.Fill();
-			//await _render.DrawText( "Hello world!", 15, 30 );
-			return Task.CompletedTask;
+		public async Task AnimCallback(int interval) {
+			await _render.Fill();
+			await _render.DrawText( "Hello world!", 15, 30 );
 		}
 
 		[JSInvokable]

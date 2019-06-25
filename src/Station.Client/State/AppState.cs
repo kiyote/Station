@@ -33,8 +33,8 @@ namespace Station.Client.State {
 			OnStateChanged?.Invoke( this, EventArgs.Empty );
 		}
 
-		public async Task Update( IAuthenticationState initial, string accessToken, string refreshToken, DateTime tokensExpireAt ) {
-			Authentication = new AuthenticationState( accessToken, refreshToken, tokensExpireAt );
+		public async Task Update( IAuthenticationState initial, string idToken, string accessToken, string refreshToken, DateTime tokensExpireAt ) {
+			Authentication = new AuthenticationState( idToken, accessToken, refreshToken, tokensExpireAt );
 			await _storage.Set( "State::Authentication", Authentication );
 			OnStateChanged?.Invoke( this, EventArgs.Empty );
 		}

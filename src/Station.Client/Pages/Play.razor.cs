@@ -31,10 +31,29 @@ namespace Station.Client.Pages {
 
 		private int _callbackContext;
 
+		public void Dispose() {
+			if( _callbackContext != -1 ) {
+				( (IJSInProcessRuntime)JsRuntime ).Invoke<object>( "anim.stop", _callbackContext );
+			}
+		}
+
+		[JSInvokable]
+		public async Task AnimCallback( int interval ) {
+			await _render.Fill();
+			await _render.DrawText( "Hello world!", 15, 30 );
+		}
+
+		[JSInvokable]
+		public void SetCallbackContext( int context ) {
+			_callbackContext = context;
+		}
+
 		protected override async Task OnInitAsync() {
 			if (State == null) {
 				return;
 			}
+
+			_callbackContext = -1;
 
 			if (State.DisplayWidth < State.DisplayHeight) {
 				Width = State.DisplayWidth - ( State.DisplayWidth % 100 );
@@ -55,23 +74,6 @@ namespace Station.Client.Pages {
 			_render = new Render( Canvas.Value, JsRuntime );
 
 			_callbackContext = await JsRuntime.InvokeAsync<int>( "anim.start", DotNetObjectRef.Create( this ) );
-
-			Console.WriteLine( "OnAfterRenderAsync" );
-		}
-
-		[JSInvokable]
-		public async Task AnimCallback(int interval) {
-			await _render.Fill();
-			await _render.DrawText( "Hello world!", 15, 30 );
-		}
-
-		[JSInvokable]
-		public void SetCallbackContext(int context) {
-			_callbackContext = context;
-		}
-
-		public void Dispose() {
-			((IJSInProcessRuntime)JsRuntime).Invoke<object>( "anim.stop", _callbackContext );
 		}
 	}
 }

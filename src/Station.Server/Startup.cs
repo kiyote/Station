@@ -14,7 +14,8 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using RiftDrive.Server.Hubs;
+using Station.Server.Hubs;
+using Station.Server.Middleware;
 
 namespace Station.Server {
 	public class Startup {
@@ -55,29 +56,29 @@ namespace Station.Server {
 			} );
 
 			services.AddHttpContextAccessor();
+			services.AddSingleton<IContextInformation, ContextInformation>();
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure( IApplicationBuilder app, IWebHostEnvironment env ) {
 			app
 				.UseResponseCompression()
 				.UseAuthorization()
-				.UseAuthentication();
+				.UseAuthentication()
+				.UseIdentificationMiddleware();
 
 			if( env.IsDevelopment() ) {
 				app.UseDeveloperExceptionPage();
 				app.UseBlazorDebugging();
 			}
 
-			app.UseClientSideBlazorFiles<Client.Startup>();
-
-			app.UseRouting();
-
-			app.UseEndpoints( endpoints => {
-				endpoints.MapHub<SignalHub>( SignalHub.Url );
-				endpoints.MapDefaultControllerRoute();
-				endpoints.MapFallbackToClientSideBlazor<Client.Startup>( "index.html" );
-			} );
+			app
+				.UseClientSideBlazorFiles<Client.Startup>()
+				.UseRouting()
+				.UseEndpoints( endpoints => {
+					endpoints.MapHub<SignalHub>( SignalHub.Url );
+					endpoints.MapDefaultControllerRoute();
+					endpoints.MapFallbackToClientSideBlazor<Client.Startup>( "index.html" );
+				} );
 		}
 
 		private void SetJwtBearerOptions( JwtBearerOptions options ) {

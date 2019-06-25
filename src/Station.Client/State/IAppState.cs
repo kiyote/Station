@@ -16,6 +16,6 @@ namespace Station.Client.State {
 
 		Task Initialize();
 
-		Task Update( IAuthenticationState initial, string accessToken, string refreshToken, DateTime tokensExpireAt );
+		Task Update( IAuthenticationState initial, string idToken, string accessToken, string refreshToken, DateTime tokensExpireAt );
 	}
 }

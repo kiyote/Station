@@ -19,30 +19,33 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
-namespace RiftDrive.Server.Hubs {
+namespace Station.Server.Hubs {
 	[Authorize( JwtBearerDefaults.AuthenticationScheme )]
 	public sealed class SignalHub : Hub {
 
 		public readonly static string Url = "/signalhub";
 
+		private readonly IContextInformation _contextInformation;
+
+		public SignalHub(IContextInformation contextInformation) {
+			_contextInformation = contextInformation;
+		}
+
 		public override async Task OnConnectedAsync() {
-			object username = this.Context.GetHttpContext().Items["User"];
-			await this.Clients.Others.SendAsync( "Send", $"{username} joined" );
+			await this.Clients.Others.SendAsync( "Send", $"{_contextInformation.Username} joined" );
 		}
 
 		public override async Task OnDisconnectedAsync( Exception ex ) {
-			object username = this.Context.GetHttpContext().Items["User"];
-			await this.Clients.Others.SendAsync( "Send", $"{username} left" );
+			await this.Clients.Others.SendAsync( "Send", $"{_contextInformation.Username} left" );
 		}
 
 		public Task Send( string message ) {
-			object username = this.Context.GetHttpContext().Items["User"];
-			return this.Clients.All.SendAsync( "Send", $"{username}: {message}" );
+			return this.Clients.All.SendAsync( "Send", $"{_contextInformation.Username}: {message}" );
 		}
 
 		public Task SendToOthers( string message ) {
-			object username = this.Context.GetHttpContext().Items["User"];
-			return this.Clients.Others.SendAsync( "Send", $"{username}: {message}" );
+			object username = this.Context.GetHttpContext().Items["Username"];
+			return this.Clients.Others.SendAsync( "Send", $"{_contextInformation.Username}: {message}" );
 		}
 
 		public Task SendToConnection( string connectionId, string message ) {

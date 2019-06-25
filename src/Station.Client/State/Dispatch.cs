@@ -27,8 +27,8 @@ namespace Station.Client.State {
 			_state = state;
 		}
 
-		public async Task UpdateTokens( string accessToken, string refreshToken, DateTime tokensExpireAt ) {
-			await _state.Update( _state.Authentication, accessToken, refreshToken, tokensExpireAt );
+		public async Task UpdateTokens( string idToken, string accessToken, string refreshToken, DateTime tokensExpireAt ) {
+			await _state.Update( _state.Authentication, idToken, accessToken, refreshToken, tokensExpireAt );
 		}
 	}
 }

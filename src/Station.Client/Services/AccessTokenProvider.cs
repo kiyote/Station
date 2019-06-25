@@ -33,17 +33,17 @@ namespace Station.Client.Services {
 
 		async Task<string> IAccessTokenProvider.GetJwtToken() {
 
-			if( _state.Authentication.AccessToken == default ) {
+			if( _state.Authentication.IdToken == default ) {
 				throw new InvalidOperationException();
 			}
 
 			if( _state.Authentication.TokensExpireAt < DateTimeOffset.Now ) {
 				AuthorizationToken tokens = await _tokenService.RefreshToken( _state.Authentication.AccessToken );
 				if( tokens != default ) {
-					await _state.Update( _state.Authentication, tokens.access_token, tokens.refresh_token, DateTime.UtcNow.AddSeconds( tokens.expires_in ) );
+					await _state.Update( _state.Authentication, tokens.id_token, tokens.access_token, tokens.refresh_token, DateTime.UtcNow.AddSeconds( tokens.expires_in ) );
 				}
 			}
-			return _state.Authentication.AccessToken;
+			return _state.Authentication.IdToken;
 		}
 	}
 }

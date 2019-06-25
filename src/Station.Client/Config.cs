@@ -29,9 +29,9 @@ namespace Station.Client {
 
 		private static readonly string _tokenUrl = $"{_cognitoUrl}/oauth2/token";
 
-		private static readonly string _cognitoClientId = "c2tf7soag9p0t8mklnd2irp94";
+		private static readonly string _cognitoClientId = "gvm6396ijn37cmke71unjvf2p";
 
-		private static readonly string _logInUrl = $"{_cognitoUrl}/login?response_type=code&client_id={_cognitoClientId}";
+		private static readonly string _logInUrl = $"{_cognitoUrl}/login?response_type=code&client_id={_cognitoClientId}&scope=openid";
 
 		private static readonly string _signUpUrl = $"{_cognitoUrl}/signup?response_type=code&client_id={_cognitoClientId}";
 

@@ -8,7 +8,7 @@ namespace Station.Client.State {
 
 		public static IDispatch Instance = new NullDispatch();
 
-		Task IDispatch.UpdateTokens( string accessToken, string refreshToken, DateTime tokensExpireAt ) {
+		Task IDispatch.UpdateTokens( string idToken, string accessToken, string refreshToken, DateTime tokensExpireAt ) {
 			throw new NotImplementedException();
 		}
 	}

@@ -1,0 +1,10 @@
+﻿@inherits AssetManagerBase
+
+<img id="imgTerrain" @ref="@Terrain" @onload="@TerrainImageLoaded" hidden />
+
+@if (!AssetsLoaded)
+{
+    <div class="lds-dual-ring"></div>
+}
+
+@ChildContent

@@ -7,19 +7,14 @@ using Station.Client.State;
 
 namespace Station.Client.Pages {
 	public class PlayBase : ComponentBase, IDisposable {
-		public PlayBase() {
-			Width = 800;
-			Height = 600;
-			JsRuntime = NullJSRuntime.Instance;
-			_render = NullRender.Instance;
-			State = NullState.Instance;
-		}
 
 		[Inject] protected IJSRuntime JsRuntime { get; set; }
 
 		[Inject] protected IAppState State { get; set; }
 
 		[Inject] protected ISignalService Signal { get; set; }
+
+		[CascadingParameter] protected AssetManagerBase AssetManager { get; set; }
 
 		protected int Width { get; set; }
 
@@ -31,6 +26,18 @@ namespace Station.Client.Pages {
 
 		private int _callbackContext;
 
+		private readonly Font _font;
+
+		public PlayBase() {
+			Width = 800;
+			Height = 600;
+			JsRuntime = NullJSRuntime.Instance;
+			_render = NullRender.Instance;
+			State = NullState.Instance;
+
+			_font = new Font( "Arial", 16 );
+		}
+
 		public void Dispose() {
 			if( _callbackContext != -1 ) {
 				( (IJSInProcessRuntime)JsRuntime ).Invoke<object>( "anim.stop", _callbackContext );
@@ -39,8 +46,9 @@ namespace Station.Client.Pages {
 
 		[JSInvokable]
 		public async Task AnimCallback( int interval ) {
-			await _render.Fill();
-			await _render.DrawText( "Hello world!", 15, 30 );
+			await _render.Fill( Colour.CornflowerBlue );
+			await _render.DrawText( "Hello world!", _font, 15, 30 );
+			await _render.DrawSprite( AssetManager.Terrain.Value, 50, 20, 40, 40, 50, 50, 40, 40 );
 		}
 
 		[JSInvokable]

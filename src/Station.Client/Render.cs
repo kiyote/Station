@@ -13,16 +13,20 @@ namespace Station.Client {
 			_js = js;
 		}
 
-		public async Task DrawText( string text, int x, int y ) {
-			await _js.InvokeAsync<object>( "render.drawText", _canvas, text, "30px Arial", x, y );
+		public async Task DrawText( string text, Font font, int x, int y ) {
+			await _js.InvokeAsync<object>( "render.drawText", _canvas, text, font.Value, x, y );
 		}
 
 		public async Task Clear() {
 			await _js.InvokeAsync<object>( "render.clear", _canvas );
 		}
 
-		public async Task Fill() {
-			await _js.InvokeAsync<object>( "render.fill", _canvas, "#6495ED" );
+		public async Task Fill( string colour ) {
+			await _js.InvokeAsync<object>( "render.fill", _canvas, colour );
+		}
+
+		public async Task DrawSprite( ElementRef image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh ) {
+			await _js.InvokeAsync<object>( "render.drawSprite", _canvas, image, sx, sy, sw, sh, dx, dy, dw, dh );
 		}
 	}
 }

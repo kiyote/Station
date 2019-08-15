@@ -21,7 +21,7 @@ namespace Station.Client {
 			throw new NotImplementedException();
 		}
 
-		public Task DrawSprite( ElementRef image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh ) {
+		public Task DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh ) {
 			throw new NotImplementedException();
 		}
 	}

@@ -10,6 +10,6 @@ namespace Station.Client {
 
 		Task DrawText( string text, Font font, int x, int y );
 
-		Task DrawSprite( ElementRef image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh );
+		Task DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh );
 	}
 }

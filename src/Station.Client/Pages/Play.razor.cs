@@ -20,7 +20,7 @@ namespace Station.Client.Pages {
 
 		protected int Height { get; set; }
 
-		protected ElementRef? Canvas { get; set; }
+		protected ElementReference? Canvas { get; set; }
 
 		private IRender _render;
 
@@ -56,7 +56,7 @@ namespace Station.Client.Pages {
 			_callbackContext = context;
 		}
 
-		protected override async Task OnInitAsync() {
+		protected override async Task OnInitializedAsync() {
 			if (State == null) {
 				return;
 			}

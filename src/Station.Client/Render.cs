@@ -5,10 +5,10 @@ using Microsoft.JSInterop;
 namespace Station.Client {
 	public class Render : IRender {
 
-		private readonly ElementRef _canvas;
+		private readonly ElementReference _canvas;
 		private readonly IJSRuntime _js;
 
-		public Render( ElementRef canvas, IJSRuntime js ) {
+		public Render( ElementReference canvas, IJSRuntime js ) {
 			_canvas = canvas;
 			_js = js;
 		}
@@ -25,7 +25,7 @@ namespace Station.Client {
 			await _js.InvokeAsync<object>( "render.fill", _canvas, colour );
 		}
 
-		public async Task DrawSprite( ElementRef image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh ) {
+		public async Task DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh ) {
 			await _js.InvokeAsync<object>( "render.drawSprite", _canvas, image, sx, sy, sw, sh, dx, dy, dw, dh );
 		}
 	}

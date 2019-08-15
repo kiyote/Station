@@ -47,7 +47,7 @@ namespace Station.Client.Pages.Auth {
 
 		protected int Progress { get; set; }
 
-		protected override async Task OnInitAsync() {
+		protected override async Task OnInitializedAsync() {
 			State.OnStateChanged += AppStateHasChanged;
 			await State.Initialize();
 

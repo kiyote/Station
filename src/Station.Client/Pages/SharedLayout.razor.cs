@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components.Layouts;
+using Microsoft.AspNetCore.Components;
 
 namespace Station.Client.Pages {
 	public class SharedLayoutBase: LayoutComponentBase {

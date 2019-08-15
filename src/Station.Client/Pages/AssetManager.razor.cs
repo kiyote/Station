@@ -8,15 +8,15 @@ using Microsoft.JSInterop;
 namespace Station.Client.Pages {
 	public class AssetManagerBase : ComponentBase {
 
-		public ElementRef? Terrain { get; set; }
+		public ElementReference? Terrain { get; set; }
 
 		private bool _firstRun;
 
 		[Inject] protected IJSRuntime JSRuntime { get; set; }
 
-		[Parameter] protected string TerrainSrc { get; set; }
+		[Parameter] public string TerrainSrc { get; set; }
 
-		[Parameter] protected RenderFragment ChildContent { get; set; }
+		[Parameter] public RenderFragment ChildContent { get; set; }
 
 		protected bool AssetsLoaded { get; set; }
 

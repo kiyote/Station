@@ -1,17 +1,16 @@
 ﻿window.anim = {
     start: function (instance) {
-        return requestAnimationFrame(function(timestamp) { anim.callback(timestamp, instance); });
+        return window.requestAnimationFrame(function (timestamp) { anim.callback(instance); });
     },
 
-    callback: function (timestamp, instance) {
-        var interval = 16;
-
-        instance.invokeMethodAsync("AnimCallback", interval);
-        var callbackId = requestAnimationFrame(function(timestamp) { anim.callback(timestamp, instance); });
+    callback: function (instance) {
+        var frameTime = performance.now();
+        instance.invokeMethodAsync("AnimCallback", frameTime);
+        var callbackId = window.requestAnimationFrame(function (timestamp) { anim.callback(instance); });
         instance.invokeMethodAsync("SetCallbackContext", callbackId);
     },
 
     stop: function (callbackId) {
-        cancelAnimationFrame(callbackId);
+        window.cancelAnimationFrame(callbackId);
     }
 };

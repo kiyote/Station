@@ -16,7 +16,7 @@ limitations under the License.
 using System;
 using Microsoft.JSInterop;
 
-namespace Station.Client {
+namespace Station.Client.Services {
 	internal sealed class JSRuntimeProvider : IJSRuntimeProvider {
 
 		private readonly IServiceProvider _serviceProvider;

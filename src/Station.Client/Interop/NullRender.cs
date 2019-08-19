@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
-namespace Station.Client {
+namespace Station.Client.Interop {
 	internal class NullRender : IRender {
 
 		public static IRender Instance = new NullRender();
@@ -21,7 +21,11 @@ namespace Station.Client {
 			throw new NotImplementedException();
 		}
 
-		public Task DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh ) {
+		Task IRender.DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh ) {
+			throw new NotImplementedException();
+		}
+
+		Task IRender.FillRect( string colour, int x, int y, int w, int h ) {
 			throw new NotImplementedException();
 		}
 	}

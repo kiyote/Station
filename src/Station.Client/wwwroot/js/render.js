@@ -26,5 +26,13 @@
         ctx.fillStyle = colour;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.restore();
+    },
+
+    fillRect: function (canvas, colour, x, y, w, h) {
+        var ctx = canvas.getContext("2d");
+        ctx.save();
+        ctx.fillStyle = colour;
+        ctx.fillRect(x, y, w, h);
+        ctx.restore();
     }
 };

@@ -15,7 +15,7 @@ limitations under the License.
 */
 using Microsoft.JSInterop;
 
-namespace Station.Client {
+namespace Station.Client.Services {
 	public interface IJSRuntimeProvider {
 		bool TryGet( out IJSRuntime jsRuntime );
 

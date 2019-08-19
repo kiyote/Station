@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Station.Client {
+namespace Station.Client.Interop {
 	public class Render : IRender {
 
 		private readonly ElementReference _canvas;
@@ -23,6 +23,10 @@ namespace Station.Client {
 
 		public async Task Fill( string colour ) {
 			await _js.InvokeAsync<object>( "render.fill", _canvas, colour );
+		}
+
+		public async Task FillRect( string colour, int x, int y, int w, int h ) {
+			await _js.InvokeAsync<object>( "render.fill", _canvas, colour, x, y, w, h );
 		}
 
 		public async Task DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh ) {

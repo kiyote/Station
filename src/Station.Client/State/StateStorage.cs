@@ -17,6 +17,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
+using Station.Client.Services;
 
 namespace Station.Client.State {
 	internal sealed class StateStorage : IStateStorage {

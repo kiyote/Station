@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Station.Client.Services;
 using Station.Client.State;
+using Station.Client.Interop;
 
 namespace Station.Client {
 	public class Startup {
@@ -18,6 +19,7 @@ namespace Station.Client {
 			services.AddSingleton<IServiceConfig, Config>();
 			services.AddSingleton<ITokenService, TokenService>();
 			services.AddSingleton<ISignalService, SignalService>();
+			services.AddSingleton<IAnim, Anim>();
 		}
 
 		public void Configure( IComponentsApplicationBuilder app ) {

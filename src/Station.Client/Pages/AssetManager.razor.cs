@@ -8,15 +8,16 @@ using Microsoft.JSInterop;
 namespace Station.Client.Pages {
 	public class AssetManagerBase : ComponentBase {
 
-		public ElementReference? Terrain { get; set; }
-
-		private bool _firstRun;
-
-		[Inject] protected IJSRuntime JSRuntime { get; set; }
-
 		[Parameter] public string TerrainSrc { get; set; }
 
 		[Parameter] public RenderFragment ChildContent { get; set; }
+
+		public ElementReference? Terrain { get; set; }
+
+		[Inject] protected IJSRuntime JSRuntime { get; set; }
+
+		private bool _firstRun;
+
 
 		protected bool AssetsLoaded { get; set; }
 
@@ -26,7 +27,6 @@ namespace Station.Client.Pages {
 
 		[JSInvokable]
 		public Task TerrainImageLoaded( UIProgressEventArgs args ) {
-			Console.WriteLine( $"Image loaded." );
 			AssetsLoaded = true;
 			return Task.CompletedTask;
 		}
@@ -34,7 +34,6 @@ namespace Station.Client.Pages {
 		protected override async Task OnAfterRenderAsync() {
 			if (_firstRun) {
 				_firstRun = false;
-				Console.WriteLine( "OnAfterRenderAsync" );
 				await JSRuntime.InvokeAsync<object>( "asset.setImage", Terrain, TerrainSrc );
 			}
 		}

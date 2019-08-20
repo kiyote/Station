@@ -68,10 +68,30 @@ namespace Station.Client.Pages {
 			Anim.Stop();
 		}
 
+		protected override async Task OnInitializedAsync() {
+			if( State is null ) {
+				return;
+			}
+
+			ResizeCanvas( State, out _width, out _height );
+
+			await Signal.Connect();
+		}
+
+		protected override async Task OnAfterRenderAsync() {
+			if( Canvas is null ) {
+				throw new InvalidOperationException();
+			}
+
+			_render = new Render( Canvas.Value, JsRuntime );
+
+			await Anim.Start( this );
+		}
+
 		async Task IAnimCallback.RenderFrame( float interval ) {
 			await _render.Fill( Colour.CornflowerBlue );
 			await _render.DrawText( $"FPS: {_frameCount}", _font, 50, 30 );
-			await _render.DrawSprite( AssetManager.Terrain.Value, 50, 20, 40, 40, 50, 50, 40, 40 );
+			await _render.DrawSprite( AssetManager.Terrain.Value, 50, 20, 40, 40, 50, 50 );
 
 			_frameCounter++;
 			_elapsedTime += interval;
@@ -82,27 +102,7 @@ namespace Station.Client.Pages {
 			}
 		}
 
-		protected override async Task OnInitializedAsync() {
-			if (State == null) {
-				return;
-			}
-
-			Get16By9( State, out _width, out _height );
-
-			await Signal.Connect();
-		}
-
-		protected override async Task OnAfterRenderAsync() {
-			if (Canvas is null) {
-				throw new InvalidOperationException();
-			}
-
-			_render = new Render( Canvas.Value, JsRuntime );
-
-			await Anim.Start( this );
-		}
-
-		private static void Get16By9( IAppState state, out int width, out int height ) {
+		private static void ResizeCanvas( IAppState state, out int width, out int height ) {
 			if( state.DisplayWidth < state.DisplayHeight ) {
 				width = state.DisplayWidth - ( state.DisplayWidth % 100 );
 				height = (int)( (float)width * 9.0f / 16.0f );

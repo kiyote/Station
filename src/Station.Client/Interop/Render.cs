@@ -26,11 +26,15 @@ namespace Station.Client.Interop {
 		}
 
 		public async Task FillRect( string colour, int x, int y, int w, int h ) {
-			await _js.InvokeAsync<object>( "render.fill", _canvas, colour, x, y, w, h );
+			await _js.InvokeAsync<object>( "render.fillRect", _canvas, colour, x, y, w, h );
+		}
+
+		public async Task DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy ) {
+			await _js.InvokeAsync<object>( "render.drawSprite", _canvas, image, sx, sy, sw, sh, dx, dy );
 		}
 
 		public async Task DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh ) {
-			await _js.InvokeAsync<object>( "render.drawSprite", _canvas, image, sx, sy, sw, sh, dx, dy, dw, dh );
+			await _js.InvokeAsync<object>( "render.drawSpriteScaled", _canvas, image, sx, sy, sw, sh, dx, dy, dw, dh );
 		}
 	}
 }

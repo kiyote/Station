@@ -21,6 +21,10 @@ namespace Station.Client.Interop {
 			throw new NotImplementedException();
 		}
 
+		Task IRender.DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy ) {
+			throw new NotImplementedException();
+		}
+
 		Task IRender.DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh ) {
 			throw new NotImplementedException();
 		}

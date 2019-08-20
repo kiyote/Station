@@ -13,8 +13,12 @@ namespace Station.Client.Interop {
 			_js = js;
 		}
 
-		public async Task DrawText( string text, Font font, int x, int y ) {
-			await _js.InvokeAsync<object>( "render.drawText", _canvas, text, font.Value, x, y );
+		public async Task DrawText( Font font, string colour, string text, int x, int y ) {
+			await _js.InvokeAsync<object>( "render.drawText", _canvas, font.Value, colour, text, x, y );
+		}
+
+		public async Task DrawStrokedText( Font font, string colour, string text, int x, int y ) {
+			await _js.InvokeAsync<object>( "render.drawStrokedText", _canvas, font.Value, colour, text, x, y );
 		}
 
 		public async Task Clear() {

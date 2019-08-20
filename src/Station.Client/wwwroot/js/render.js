@@ -14,9 +14,10 @@
         ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
     },
 
-    drawText: function (canvas, text, font, x, y) {
+    drawText: function (canvas, font, colour, text, x, y) {
         var ctx = canvas.getContext("2d", { alpha: false });
         ctx.font = font;
+        ctx.fillStyle = colour;
         ctx.fillText(text, x, y);
     },
 
@@ -38,6 +39,20 @@
         ctx.save();
         ctx.fillStyle = colour;
         ctx.fillRect(x, y, w, h);
+        ctx.restore();
+    },
+
+    drawStrokedText: function (canvas, font, colour, text, x, y) {
+        var ctx = canvas.getContext("2d", { alpha: false });
+        ctx.fillStyle = colour;
+        ctx.font = font;
+        ctx.save();
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        ctx.lineJoin = "round";
+        ctx.miterLimit = 2;
+        ctx.strokeText(text, x, y);
+        ctx.fillText(text, x, y);
         ctx.restore();
     }
 };

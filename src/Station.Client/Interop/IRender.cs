@@ -8,7 +8,9 @@ namespace Station.Client.Interop {
 
 		Task Fill( string colour );
 
-		Task DrawText( string text, Font font, int x, int y );
+		Task DrawText( Font font, string colour, string text, int x, int y );
+
+		Task DrawStrokedText( Font font, string colour, string text, int x, int y );
 
 		Task DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy );
 

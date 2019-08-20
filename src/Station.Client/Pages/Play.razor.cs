@@ -90,8 +90,12 @@ namespace Station.Client.Pages {
 
 		async Task IAnimCallback.RenderFrame( float interval ) {
 			await _render.Fill( Colour.CornflowerBlue );
-			await _render.DrawText( $"FPS: {_frameCount}", _font, 50, 30 );
-			await _render.DrawSprite( AssetManager.Terrain.Value, 50, 20, 40, 40, 50, 50 );
+			for (int y = 0; y < 10; y++) {
+				for (int x = 0; x < 10; x++ ) {
+					await _render.DrawSprite( AssetManager.Terrain.Value, 0, 0, 32, 32, (x * 32), (y * 32) );
+				}
+			}
+			await _render.DrawStrokedText( _font, Colour.White, $"FPS: {_frameCount}", 50, 30 );
 
 			_frameCounter++;
 			_elapsedTime += interval;

@@ -17,7 +17,11 @@ namespace Station.Client.Interop {
 			throw new NotImplementedException();
 		}
 
-		Task IRender.DrawText( string text, Font font, int x, int y ) {
+		Task IRender.DrawText( Font font, string colour, string text, int x, int y ) {
+			throw new NotImplementedException();
+		}
+
+		Task IRender.DrawStrokedText( Font font, string colour, string text, int x, int y ) {
 			throw new NotImplementedException();
 		}
 

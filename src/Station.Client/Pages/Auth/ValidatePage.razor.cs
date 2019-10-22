@@ -35,7 +35,7 @@ namespace Station.Client.Pages.Auth {
 			TokenService = NullTokenService.Instance;
 		}
 
-		[Inject] protected IUriHelper UriHelper { get; set; }
+		[Inject] protected NavigationManager UriHelper { get; set; }
 
 		[Inject] protected IAppState State { get; set; }
 
@@ -69,15 +69,22 @@ namespace Station.Client.Pages.Auth {
 			UriHelper.NavigateTo( "/" );
 		}
 
+		protected virtual void Dispose( bool disposing ) {
+			if (disposing) {
+				State.OnStateChanged -= AppStateHasChanged;
+			}
+		}
+
 		private void AppStateHasChanged( object sender, EventArgs e ) {
 			StateHasChanged();
 		}
 
 		public void Dispose() {
-			State.OnStateChanged -= AppStateHasChanged;
+			Dispose( true );
+			GC.SuppressFinalize( this );
 		}
 
-		private void Update(string message, int progress) {
+		private void Update( string message, int progress ) {
 			Messages.Add( message );
 			Progress = progress;
 			StateHasChanged();

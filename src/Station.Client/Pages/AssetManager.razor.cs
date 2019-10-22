@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
 namespace Station.Client.Pages {
@@ -26,12 +27,12 @@ namespace Station.Client.Pages {
 		}
 
 		[JSInvokable]
-		public Task TerrainImageLoaded( UIProgressEventArgs args ) {
+		public Task TerrainImageLoaded( ProgressEventArgs args ) {
 			AssetsLoaded = true;
 			return Task.CompletedTask;
 		}
 
-		protected override async Task OnAfterRenderAsync() {
+		protected override async Task OnAfterRenderAsync( bool firstRender ) {
 			if (_firstRun) {
 				_firstRun = false;
 				await JSRuntime.InvokeAsync<object>( "asset.setImage", Terrain, TerrainSrc );

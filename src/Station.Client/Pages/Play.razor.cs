@@ -65,7 +65,14 @@ namespace Station.Client.Pages {
 		}
 
 		public void Dispose() {
-			Anim.Stop();
+			Dispose( true );
+			GC.SuppressFinalize( this );
+		}
+
+		protected virtual void Dispose( bool disposing ) {
+			if (disposing) {
+				Anim.Stop();
+			}
 		}
 
 		protected override async Task OnInitializedAsync() {
@@ -78,7 +85,7 @@ namespace Station.Client.Pages {
 			await Signal.Connect();
 		}
 
-		protected override async Task OnAfterRenderAsync() {
+		protected override async Task OnAfterRenderAsync( bool firstRender ) {
 			if( Canvas is null ) {
 				throw new InvalidOperationException();
 			}
@@ -90,16 +97,16 @@ namespace Station.Client.Pages {
 
 		async Task IAnimCallback.RenderFrame( float interval ) {
 			await _render.Fill( Colour.CornflowerBlue );
-			for (int y = 0; y < 10; y++) {
-				for (int x = 0; x < 10; x++ ) {
-					await _render.DrawSprite( AssetManager.Terrain.Value, 0, 0, 32, 32, (x * 32), (y * 32) );
+			for( int y = 0; y < 10; y++ ) {
+				for( int x = 0; x < 10; x++ ) {
+					await _render.DrawSprite( AssetManager.Terrain.Value, 0, 0, 32, 32, ( x * 32 ), ( y * 32 ) );
 				}
 			}
 			await _render.DrawStrokedText( _font, Colour.White, $"FPS: {_frameCount}", 50, 30 );
 
 			_frameCounter++;
 			_elapsedTime += interval;
-			if ( _elapsedTime >= 1000.0f) {
+			if( _elapsedTime >= 1000.0f ) {
 				_frameCount = _frameCounter;
 				_frameCounter = 0;
 				_elapsedTime -= 1000.0f;

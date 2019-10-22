@@ -21,9 +21,8 @@ using Microsoft.Extensions.Primitives;
 
 namespace Station.Client {
 	public static class ExtensionMethods {
-		public static string GetParameter( this IUriHelper uriHelper, string name ) {
-			Uri uri = new Uri( uriHelper.GetAbsoluteUri() );
-			string value = QueryHelpers.ParseQuery( uri.Query ).TryGetValue( name, out StringValues values ) ? values.First() : string.Empty;
+		public static string GetParameter( this NavigationManager uriHelper, string name ) {
+			string value = QueryHelpers.ParseQuery( uriHelper.Uri ).TryGetValue( name, out StringValues values ) ? values.First() : string.Empty;
 
 			return value;
 		}

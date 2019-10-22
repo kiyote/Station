@@ -62,8 +62,6 @@ namespace Station.Server {
 		public void Configure( IApplicationBuilder app, IWebHostEnvironment env ) {
 			app
 				.UseResponseCompression()
-				.UseAuthorization()
-				.UseAuthentication()
 				.UseIdentificationMiddleware();
 
 			if( env.IsDevelopment() ) {
@@ -73,7 +71,15 @@ namespace Station.Server {
 
 			app
 				.UseClientSideBlazorFiles<Client.Startup>()
-				.UseRouting()
+				.UseAuthentication();
+
+			app
+				.UseRouting();
+
+			app
+				.UseAuthorization();
+
+			app
 				.UseEndpoints( endpoints => {
 					endpoints.MapHub<SignalHub>( SignalHub.Url );
 					endpoints.MapDefaultControllerRoute();

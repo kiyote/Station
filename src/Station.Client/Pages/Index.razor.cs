@@ -26,7 +26,7 @@ namespace Station.Client.Pages {
 			}
 		}
 
-		protected override async Task OnAfterRenderAsync() {
+		protected override async Task OnAfterRenderAsync( bool firstRender ) {
 			if ( JSRuntime == null || State == null ) {
 				return;
 			}

@@ -9,11 +9,11 @@ namespace Station.Client {
 
 		public static IJSRuntime Instance = new NullJSRuntime();
 
-		Task<TValue> IJSRuntime.InvokeAsync<TValue>( string identifier, params object[] args ) {
+		ValueTask<TValue> IJSRuntime.InvokeAsync<TValue>( string identifier, object[] args ) {
 			throw new NotImplementedException();
 		}
 
-		Task<TValue> IJSRuntime.InvokeAsync<TValue>( string identifier, IEnumerable<object> args, CancellationToken cancellationToken ) {
+		ValueTask<TValue> IJSRuntime.InvokeAsync<TValue>( string identifier, CancellationToken cancellationToken, object[] args ) {
 			throw new NotImplementedException();
 		}
 	}

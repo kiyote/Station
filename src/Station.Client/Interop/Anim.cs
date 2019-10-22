@@ -22,7 +22,7 @@ namespace Station.Client.Interop {
 		public async Task Start( IAnimCallback callback ) {
 			_callback = callback;
 			IJSRuntime jsRuntime = _jsRuntimeProvider.Get();
-			_context = await jsRuntime.InvokeAsync<int>( "anim.start", DotNetObjectRef.Create( this ) );
+			_context = await jsRuntime.InvokeAsync<int>( "anim.start", DotNetObjectReference.Create( this ) );
 		}
 
 		public Task Stop() {

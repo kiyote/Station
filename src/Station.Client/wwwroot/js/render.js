@@ -44,9 +44,9 @@
 
     drawStrokedText: function (canvas, font, colour, text, x, y) {
         var ctx = canvas.getContext("2d", { alpha: false });
+        ctx.save();
         ctx.fillStyle = colour;
         ctx.font = font;
-        ctx.save();
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
         ctx.lineJoin = "round";

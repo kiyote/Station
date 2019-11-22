@@ -22,7 +22,10 @@ using Microsoft.Extensions.Primitives;
 namespace Station.Client {
 	public static class ExtensionMethods {
 		public static string GetParameter( this NavigationManager uriHelper, string name ) {
-			string value = QueryHelpers.ParseQuery( uriHelper.Uri ).TryGetValue( name, out StringValues values ) ? values.First() : string.Empty;
+			string queryString = uriHelper.Uri.Substring( uriHelper.Uri.IndexOf( '?' ) );
+			string value = QueryHelpers
+				.ParseQuery( queryString )
+				.TryGetValue( name, out StringValues values ) ? values.First() : string.Empty;
 
 			return value;
 		}

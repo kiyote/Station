@@ -42,6 +42,7 @@ namespace Station.Client.Services {
 				new KeyValuePair<string, string>("code", code),
 				new KeyValuePair<string, string>("redirect_uri", _config.RedirectUrl)
 			} );
+
 			HttpResponseMessage response = await _http.PostAsync( _config.TokenUrl, content );
 			if( response.IsSuccessStatusCode ) {
 				string payload = await response.Content.ReadAsStringAsync();

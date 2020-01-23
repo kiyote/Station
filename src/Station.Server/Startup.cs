@@ -36,11 +36,20 @@ namespace Station.Server {
 					policy.AddAuthenticationSchemes( JwtBearerDefaults.AuthenticationScheme );
 					policy.RequireClaim( ClaimTypes.NameIdentifier );
 				} );
+				options.DefaultPolicy = options.GetPolicy( JwtBearerDefaults.AuthenticationScheme );
 			} );
 
 			services
 				.AddAuthentication( JwtBearerDefaults.AuthenticationScheme )
 				.AddJwtBearer( JwtBearerDefaults.AuthenticationScheme, SetJwtBearerOptions );
+
+			// TODO: Determine if this is still needed for SignalR
+			services.AddCors( options => options.AddPolicy( "CorsPolicy",
+				 builder => {
+					 builder.AllowAnyMethod()
+						 .AllowAnyHeader()
+						 .AllowAnyOrigin();
+				 } ) );
 
 			services
 				.AddMvc()
@@ -60,24 +69,18 @@ namespace Station.Server {
 		}
 
 		public void Configure( IApplicationBuilder app, IWebHostEnvironment env ) {
-			app
-				.UseResponseCompression()
-				.UseIdentificationMiddleware();
 
 			if( env.IsDevelopment() ) {
 				app.UseDeveloperExceptionPage();
 				app.UseBlazorDebugging();
 			}
-
-			app
-				.UseClientSideBlazorFiles<Client.Startup>()
-				.UseAuthentication();
-
-			app
-				.UseRouting();
-
-			app
-				.UseAuthorization();
+			app.UseCors( "CorsPolicy" );
+			app.UseClientSideBlazorFiles<Client.Startup>();
+			app.UseRouting();
+			app.UseResponseCompression();
+			app.UseAuthorization();
+			app.UseAuthentication();
+			app.UseIdentificationMiddleware();
 
 			app
 				.UseEndpoints( endpoints => {

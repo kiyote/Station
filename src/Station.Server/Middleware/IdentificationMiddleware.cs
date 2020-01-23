@@ -31,13 +31,8 @@ namespace Station.Server.Middleware {
 		}
 
 		public async Task InvokeAsync( HttpContext httpContext ) {
-			var principal = httpContext.User?.Identities?.FirstOrDefault();
-
-			if( principal?.Claims?.Any() ?? false ) {
-				var userIdValue = principal.Claims.FirstOrDefault( c => c.Type == ClaimTypes.NameIdentifier )?.Value;
-				var username = principal.Claims.FirstOrDefault( c => c.Type == "name" )?.Value;
-				httpContext.Items["Username"] = username;
-			}
+			ClaimsIdentity principal = httpContext.User?.Identities?.FirstOrDefault();
+			httpContext.Items["Username"] = principal?.GetUsername();
 
 			await _next( httpContext );
 		}

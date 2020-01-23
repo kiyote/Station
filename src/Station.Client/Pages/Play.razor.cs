@@ -97,8 +97,8 @@ namespace Station.Client.Pages {
 
 		async Task IAnimCallback.RenderFrame( float interval ) {
 			await _render.Fill( Colour.CornflowerBlue );
-			for( int y = 0; y < 10; y++ ) {
-				for( int x = 0; x < 10; x++ ) {
+			for( int y = 0; y < 1; y++ ) {
+				for( int x = 0; x < 1; x++ ) {
 					await _render.DrawSprite( AssetManager.Terrain.Value, 0, 0, 32, 32, ( x * 32 ), ( y * 32 ) );
 				}
 			}

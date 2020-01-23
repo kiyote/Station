@@ -14,69 +14,87 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 
 namespace Station.Server.Hubs {
-	[Authorize( JwtBearerDefaults.AuthenticationScheme )]
+	[Authorize]
 	public sealed class SignalHub : Hub {
 
 		public readonly static string Url = "/signalhub";
+		private readonly ILogger<SignalHub> _logger;
+		private string _username;
 
-		private readonly IContextInformation _contextInformation;
-
-		public SignalHub(IContextInformation contextInformation) {
-			_contextInformation = contextInformation;
+		public SignalHub(
+			ILogger<SignalHub> logger
+		) {
+			_logger = logger;
 		}
 
 		public override async Task OnConnectedAsync() {
-			await this.Clients.Others.SendAsync( "Send", $"{_contextInformation.Username} joined" );
+			SetContextInformation();
+
+			await Clients.Others.SendAsync( "Send", $"{_username} connected" );
 		}
 
 		public override async Task OnDisconnectedAsync( Exception ex ) {
-			await this.Clients.Others.SendAsync( "Send", $"{_contextInformation.Username} left" );
+			await this.Clients.Others.SendAsync( "Send", $"{_username} left" );
+
+			ClearContextInformation();
 		}
 
 		public Task Send( string message ) {
-			return this.Clients.All.SendAsync( "Send", $"{_contextInformation.Username}: {message}" );
+			return Clients.All.SendAsync( "Send", $"{_username}: {message}" );
 		}
 
 		public Task SendToOthers( string message ) {
-			object username = this.Context.GetHttpContext().Items["Username"];
-			return this.Clients.Others.SendAsync( "Send", $"{_contextInformation.Username}: {message}" );
+			return Clients.Others.SendAsync( "Send", $"{_username}: {message}" );
 		}
 
 		public Task SendToConnection( string connectionId, string message ) {
-			return this.Clients.Client( connectionId )
-				.SendAsync( "Send", $"Private message from {this.Context.ConnectionId}: {message}" );
+			return Clients.Client( connectionId )
+				.SendAsync( "Send", $"Private message from {_username}: {message}" );
 		}
 
 		public Task SendToGroup( string groupName, string message ) {
-			return this.Clients.Group( groupName )
-				.SendAsync( "Send", $"{this.Context.ConnectionId}@{groupName}: {message}" );
+			return Clients.Group( groupName )
+				.SendAsync( "Send", $"{_username}@{groupName}: {message}" );
 		}
 
 		public Task SendToOthersInGroup( string groupName, string message ) {
-			return this.Clients.OthersInGroup( groupName )
-				.SendAsync( "Send", $"{this.Context.ConnectionId}@{groupName}: {message}" );
+			return Clients.OthersInGroup( groupName )
+				.SendAsync( "Send", $"{_username}@{groupName}: {message}" );
 		}
 
 		public async Task JoinGroup( string groupName ) {
-			await this.Groups.AddToGroupAsync( this.Context.ConnectionId, groupName );
+			await Groups.AddToGroupAsync( this.Context.ConnectionId, groupName );
 
-			await this.Clients.Group( groupName ).SendAsync( "Send", $"{this.Context.ConnectionId} joined {groupName}" );
+			await Clients.Group( groupName ).SendAsync( "Send", $"{_username} joined {groupName}" );
 		}
 
 		public async Task LeaveGroup( string groupName ) {
-			await this.Clients.Group( groupName ).SendAsync( "Send", $"{this.Context.ConnectionId} left {groupName}" );
+			await Clients.Group( groupName ).SendAsync( "Send", $"{_username} left {groupName}" );
 
-			await this.Groups.RemoveFromGroupAsync( this.Context.ConnectionId, groupName );
+			await Groups.RemoveFromGroupAsync( this.Context.ConnectionId, groupName );
 		}
 
 		public Task Echo( string message ) {
-			return this.Clients.Caller.SendAsync( "Send", $"{this.Context.ConnectionId}: {message}" );
+			return Clients.Caller.SendAsync( "Send", $"{_username}: {message}" );
+		}
+
+		private void SetContextInformation() {
+			_username = default;
+
+			ClaimsIdentity principal = Context.User?.Identities?.First();
+			_username = principal.GetUsername();
+		}
+
+		private void ClearContextInformation() {
+			_username = default;
 		}
 	}
 }

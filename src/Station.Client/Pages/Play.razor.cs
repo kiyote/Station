@@ -1,3 +1,18 @@
+/*
+ * Copyright 2018-2019 Todd Lang
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -5,20 +20,24 @@ using Microsoft.JSInterop;
 using Station.Client.Services;
 using Station.Client.State;
 using Station.Client.Interop;
+using Station.Shared;
 
 namespace Station.Client.Pages {
 	public class PlayBase : ComponentBase, IAnimCallback, IDisposable {
 
 		protected ElementReference? Canvas { get; set; }
+		protected ElementReference? TerrainCanvas { get; set; }
 
 		private int _width;
 		private int _height;
 		private IRender _render;
+		private IRender _terrainRender;
 		private readonly Font _font;
 		private int _frameCount;
 		private int _frameCounter;
 		private float _elapsedTime;
 		private IDisposable _sendFromServerHandle;
+		private bool _terrainDirty;
 
 		[Inject] protected IJSRuntime JsRuntime { get; set; }
 
@@ -26,7 +45,11 @@ namespace Station.Client.Pages {
 
 		[Inject] protected ISignalService Signal { get; set; }
 
+		[Inject] protected IMapRenderer MapRenderer { get; set; }
+
 		[Inject] protected IAnim Anim { get; set; }
+
+		[Inject] protected IMapService Map { get; set; }
 
 		[CascadingParameter] protected AssetManagerBase AssetManager { get; set; }
 
@@ -53,6 +76,7 @@ namespace Station.Client.Pages {
 			Height = 600;
 			JsRuntime = NullJSRuntime.Instance;
 			_render = NullRender.Instance;
+			_terrainRender = NullRender.Instance;
 			State = NullState.Instance;
 
 			_font = new Font( "Arial", 16 );
@@ -60,6 +84,7 @@ namespace Station.Client.Pages {
 			_elapsedTime = 0.0f;
 			_frameCount = 0;
 			_frameCounter = 0;
+			_terrainDirty = true;
 		}
 
 		public void Dispose() {
@@ -68,7 +93,7 @@ namespace Station.Client.Pages {
 		}
 
 		protected virtual void Dispose( bool disposing ) {
-			if (disposing) {
+			if( disposing ) {
 				Anim.Stop();
 				_sendFromServerHandle.Dispose();
 			}
@@ -81,6 +106,7 @@ namespace Station.Client.Pages {
 
 			ResizeCanvas( State, out _width, out _height );
 
+			Map.Register( TerrainChanged );
 			_sendFromServerHandle = Signal.Register<string>( "Send", SendFromServer );
 			await Signal.Connect();
 		}
@@ -90,18 +116,19 @@ namespace Station.Client.Pages {
 				throw new InvalidOperationException();
 			}
 
-			_render = new Render( Canvas.Value, JsRuntime );
+			if( firstRender ) {
+				_render = new Render( Canvas.Value, JsRuntime, true );
+				_terrainRender = new Render( TerrainCanvas.Value, JsRuntime, false );
 
-			await Anim.Start( this );
+				await Anim.Start( this );
+
+				await Map.SetVisibleArea( new Rect( 0, 0, _width / 32, _height / 32 ) );
+			}
 		}
 
 		async Task IAnimCallback.RenderFrame( float interval ) {
-			await _render.Fill( Colour.CornflowerBlue );
-			for( int y = 0; y < 1; y++ ) {
-				for( int x = 0; x < 1; x++ ) {
-					await _render.DrawSprite( AssetManager.Terrain.Value, 0, 0, 32, 32, ( x * 32 ), ( y * 32 ) );
-				}
-			}
+
+			await _render.Clear();
 			await _render.DrawStrokedText( _font, Colour.White, $"FPS: {_frameCount}", 50, 30 );
 
 			_frameCounter++;
@@ -110,6 +137,11 @@ namespace Station.Client.Pages {
 				_frameCount = _frameCounter;
 				_frameCounter = 0;
 				_elapsedTime -= 1000.0f;
+
+				if( _terrainDirty ) {
+					await MapRenderer.RenderTerrain( _terrainRender, AssetManager.Terrain.Value );
+					_terrainDirty = false;
+				}
 			}
 		}
 
@@ -123,9 +155,12 @@ namespace Station.Client.Pages {
 			}
 		}
 
-		private void SendFromServer(string payload) {
+		private void SendFromServer( string payload ) {
 			Console.WriteLine( payload );
 		}
 
+		private void TerrainChanged() {
+			_terrainDirty = true;
+		}
 	}
 }

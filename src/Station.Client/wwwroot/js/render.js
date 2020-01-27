@@ -1,50 +1,51 @@
 ﻿window.render = {
-    drawImage: function (canvas, image, x, y) {
-        var ctx = canvas.getContext("2d", { alpha: false });
+    drawImage: function (canvas, isTransparent, image, x, y) {
+        var ctx = canvas.getContext("2d", { alpha: isTransparent });
         ctx.drawImage(image, x, y);
     },
 
-    drawSprite: function (canvas, image, sx, sy, sw, sh, dx, dy) {
-        var ctx = canvas.getContext("2d", { alpha: false });
+    drawSprite: function (canvas, isTransparent, image, sx, sy, sw, sh, dx, dy) {
+        var ctx = canvas.getContext("2d", { alpha: isTransparent });
         ctx.drawImage(image, sx, sy, sw, sh, dx, dy, sw, sh);
     },
 
-    drawSpriteScaled: function (canvas, image, sx, sy, sw, sh, dx, dy, dw, dh) {
-        var ctx = canvas.getContext("2d", { alpha: false });
+    drawSpriteScaled: function (canvas, isTransparent, image, sx, sy, sw, sh, dx, dy, dw, dh) {
+        var ctx = canvas.getContext("2d", { alpha: isTransparent });
         ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
     },
 
-    drawText: function (canvas, font, colour, text, x, y) {
-        var ctx = canvas.getContext("2d", { alpha: false });
+    drawText: function (canvas, isTransparent, font, colour, text, x, y) {
+        var ctx = canvas.getContext("2d", { alpha: isTransparent });
         ctx.font = font;
         ctx.fillStyle = colour;
         ctx.fillText(text, x, y);
     },
 
-    clear: function (canvas) {
-        var ctx = canvas.getContext("2d", { alpha: false });
+    clear: function (canvas, isTransparent) {
+        var ctx = canvas.getContext("2d", { alpha: isTransparent });
+        ctx.beginPath();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fill();
     },
 
-    fill: function (canvas, colour) {
-        var ctx = canvas.getContext("2d", { alpha: false });
-        ctx.save();
+    fill: function (canvas, isTransparent, colour) {
+        var ctx = canvas.getContext("2d", { alpha: isTransparent });
+        ctx.beginPath();
         ctx.fillStyle = colour;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.restore();
+        ctx.fill();
     },
 
-    fillRect: function (canvas, colour, x, y, w, h) {
-        var ctx = canvas.getContext("2d", { alpha: false });
-        ctx.save();
+    fillRect: function (canvas, isTransparent, colour, x, y, w, h) {
+        var ctx = canvas.getContext("2d", { alpha: isTransparent });
+        ctx.beginPath();
         ctx.fillStyle = colour;
         ctx.fillRect(x, y, w, h);
-        ctx.restore();
+        ctx.fill();
     },
 
-    drawStrokedText: function (canvas, font, colour, text, x, y) {
-        var ctx = canvas.getContext("2d", { alpha: false });
-        ctx.save();
+    drawStrokedText: function (canvas, isTransparent, font, colour, text, x, y) {
+        var ctx = canvas.getContext("2d", { alpha: isTransparent });
         ctx.fillStyle = colour;
         ctx.font = font;
         ctx.strokeStyle = "black";
@@ -53,6 +54,11 @@
         ctx.miterLimit = 2;
         ctx.strokeText(text, x, y);
         ctx.fillText(text, x, y);
-        ctx.restore();
+    },
+
+    copyRect: function (canvas, isTransparent, sx, sy, sw, sh, x, y) {
+        var ctx = canvas.getContext("2d", { alpha: isTransparent });
+        var imageData = ctx.getImageData(sx, sy, sw, sh);
+        ctx.putImageData(imageData, x, y);
     }
 };

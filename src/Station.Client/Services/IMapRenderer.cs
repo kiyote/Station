@@ -14,16 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Station.Client.Interop;
 
-namespace Station.Client.Interop {
-	public static class Colour {
-
-		public const string Transparent = "rgba( 0, 0, 0, 0.0 )";
-
-		public const string Black = "#000000";
-
-		public const string White = "#FFFFFF";
-
-		public const string CornflowerBlue = "#6495ED";
+namespace Station.Client.Services {
+	public interface IMapRenderer {
+		Task RenderTerrain(
+			IRender terrainCanvas,
+			ElementReference terrainImage );
 	}
 }

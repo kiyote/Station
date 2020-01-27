@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Station.Shared;
 
 namespace Station.Server.Hubs {
 	[Authorize]
@@ -45,6 +46,13 @@ namespace Station.Server.Hubs {
 			await this.Clients.Others.SendAsync( "Send", $"{_username} left" );
 
 			ClearContextInformation();
+		}
+
+		public Task GetTerrain( int chunkColumn, int chunkRow ) {
+			var chunk = new TerrainChunk();
+			chunk.ChunkColumn = chunkColumn;
+			chunk.ChunkRow = chunkRow;
+			return Clients.Caller.SendAsync( "TerrainChunk", chunk );
 		}
 
 		public Task Send( string message ) {

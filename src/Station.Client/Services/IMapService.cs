@@ -14,16 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 using System;
+using System.Threading.Tasks;
+using Station.Shared;
 
-namespace Station.Client.Interop {
-	public static class Colour {
+namespace Station.Client.Services {
+	public interface IMapService {
 
-		public const string Transparent = "rgba( 0, 0, 0, 0.0 )";
+		void Register( Action terrainChanged );
 
-		public const string Black = "#000000";
+		Task SetVisibleArea( Rect area );
 
-		public const string White = "#FFFFFF";
-
-		public const string CornflowerBlue = "#6495ED";
+		int GetTerrain( int column, int row );
 	}
 }

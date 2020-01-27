@@ -2,6 +2,7 @@
 @inherits PlayBase
 @layout SharedLayout
 
-<div class="text-center">
+<div class="render">
+    <canvas width="@Width" height="@Height" id="terrainCanvas" @ref="TerrainCanvas"></canvas>
     <canvas width="@Width" height="@Height" id="renderCanvas" @ref="Canvas"></canvas>
 </div>

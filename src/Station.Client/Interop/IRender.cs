@@ -17,5 +17,7 @@ namespace Station.Client.Interop {
 		Task DrawSprite( ElementReference image, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh );
 
 		Task FillRect( string colour, int x, int y, int w, int h );
+
+		Task CopyRect( int sx, int sy, int sw, int sh, int dx, int dy );
 	}
 }

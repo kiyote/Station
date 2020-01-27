@@ -36,5 +36,9 @@ namespace Station.Client.Interop {
 		Task IRender.FillRect( string colour, int x, int y, int w, int h ) {
 			throw new NotImplementedException();
 		}
+
+		Task IRender.CopyRect( int sx, int sy, int sw, int sh, int x, int y ) {
+			throw new NotImplementedException();
+		}
 	}
 }

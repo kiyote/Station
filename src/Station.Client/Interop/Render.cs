@@ -8,7 +8,10 @@ namespace Station.Client.Interop {
 		private readonly ElementReference _canvas;
 		private readonly IJSRuntime _js;
 
-		public Render( ElementReference canvas, IJSRuntime js ) {
+		public Render(
+			ElementReference canvas,
+			IJSRuntime js
+		) {
 			_canvas = canvas;
 			_js = js;
 		}

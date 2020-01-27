@@ -9,11 +9,11 @@ namespace Station.Client {
 		public void ConfigureServices( IServiceCollection services ) {
 
 			services.AddSingleton<IJSRuntimeProvider, JSRuntimeProvider>();
+			services.AddSingleton<IJsonConverter, JsonConverter>();
 			services.AddSingleton<IAuthenticationState, AuthenticationState>();
 			services.AddSingleton<IDispatch, Dispatch>();
 			services.AddSingleton<IStateStorage, StateStorage>();
 			services.AddSingleton<IAppState, AppState>();
-			services.AddSingleton<IJsonConverter, JsonConverter>();
 			services.AddSingleton<IAccessTokenProvider, AccessTokenProvider>();
 			services.AddSingleton<IConfig, Config>();
 			services.AddSingleton<IServiceConfig, Config>();

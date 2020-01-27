@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 using System;
-using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace Station.Client.State {
 	public interface IAuthenticationState {
@@ -27,7 +27,7 @@ namespace Station.Client.State {
 
 		DateTime TokensExpireAt { get; }
 
-		[JsonIgnore]
+		[IgnoreDataMember]
 		bool IsAuthenticated { get; }
 	}
 }

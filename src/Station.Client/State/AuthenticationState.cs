@@ -14,7 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 using System;
-using Newtonsoft.Json;
+using System.Runtime.Serialization;
+using Utf8Json;
 
 namespace Station.Client.State {
 	internal sealed class AuthenticationState : IAuthenticationState {
@@ -23,7 +24,7 @@ namespace Station.Client.State {
 			TokensExpireAt = DateTime.MinValue.ToUniversalTime();
 		}
 
-		[JsonConstructor]
+		[SerializationConstructor]
 		public AuthenticationState(
 			string idToken,
 			string accessToken,
@@ -44,7 +45,7 @@ namespace Station.Client.State {
 
 		public DateTime TokensExpireAt { get; }
 
-		[JsonIgnore]
+		[IgnoreDataMember]
 		public bool IsAuthenticated {
 			get {
 				return ( TokensExpireAt >= DateTime.UtcNow );

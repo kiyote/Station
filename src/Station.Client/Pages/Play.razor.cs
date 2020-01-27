@@ -9,8 +9,16 @@ using Station.Client.Interop;
 namespace Station.Client.Pages {
 	public class PlayBase : ComponentBase, IAnimCallback, IDisposable {
 
+		protected ElementReference? Canvas { get; set; }
+
 		private int _width;
 		private int _height;
+		private IRender _render;
+		private readonly Font _font;
+		private int _frameCount;
+		private int _frameCounter;
+		private float _elapsedTime;
+		private IDisposable _sendFromServerHandle;
 
 		[Inject] protected IJSRuntime JsRuntime { get; set; }
 
@@ -40,16 +48,6 @@ namespace Station.Client.Pages {
 			}
 		}
 
-		protected ElementReference? Canvas { get; set; }
-
-		private IRender _render;
-
-		private readonly Font _font;
-
-		private int _frameCount;
-		private int _frameCounter;
-		private float _elapsedTime;
-
 		public PlayBase() {
 			Width = 800;
 			Height = 600;
@@ -72,6 +70,7 @@ namespace Station.Client.Pages {
 		protected virtual void Dispose( bool disposing ) {
 			if (disposing) {
 				Anim.Stop();
+				_sendFromServerHandle.Dispose();
 			}
 		}
 
@@ -82,6 +81,7 @@ namespace Station.Client.Pages {
 
 			ResizeCanvas( State, out _width, out _height );
 
+			_sendFromServerHandle = Signal.Register<string>( "Send", SendFromServer );
 			await Signal.Connect();
 		}
 
@@ -121,6 +121,10 @@ namespace Station.Client.Pages {
 				height = state.DisplayHeight - ( state.DisplayHeight % 100 );
 				width = (int)( (float)height * 16.0f / 9.0f );
 			}
+		}
+
+		private void SendFromServer(string payload) {
+			Console.WriteLine( payload );
 		}
 
 	}

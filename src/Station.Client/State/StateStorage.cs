@@ -16,16 +16,20 @@ limitations under the License.
 using System;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using Newtonsoft.Json;
 using Station.Client.Services;
 
 namespace Station.Client.State {
 	internal sealed class StateStorage : IStateStorage {
 
 		private readonly IJSRuntimeProvider _jsProvider;
+		private readonly IJsonConverter _json;
 
-		public StateStorage( IJSRuntimeProvider jsRuntimeProvider ) {
+		public StateStorage(
+			IJSRuntimeProvider jsRuntimeProvider,
+			IJsonConverter jsonConverter
+		) {
 			_jsProvider = jsRuntimeProvider;
+			_json = jsonConverter;
 		}
 
 		public async Task<DateTime> GetAsDateTime( string name ) {
@@ -56,7 +60,7 @@ namespace Station.Client.State {
 			if( string.IsNullOrWhiteSpace( value ) ) {
 				return default!;
 			}
-			return JsonConvert.DeserializeObject<T>( value );
+			return _json.Deserialize<T>( value );
 		}
 
 		public async Task Set( string name, string value ) {
@@ -75,7 +79,7 @@ namespace Station.Client.State {
 		}
 
 		public async Task Set<T>( string name, T value ) {
-			string json = JsonConvert.SerializeObject( value );
+			string json = _json.Serialize( value );
 			IJSRuntime js = _jsProvider.Get();
 			await js.InvokeAsync<string>( "appState.setItem", name, json );
 		}

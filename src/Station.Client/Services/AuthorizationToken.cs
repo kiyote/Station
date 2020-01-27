@@ -13,12 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-using Newtonsoft.Json;
+using Utf8Json;
 
 namespace Station.Client.Services {
 	public class AuthorizationToken {
 
-		[JsonConstructor]
+		[SerializationConstructor]
 		public AuthorizationToken(
 			string id_token,
 			string access_token,

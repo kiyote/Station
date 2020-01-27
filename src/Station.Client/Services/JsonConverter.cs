@@ -13,30 +13,25 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-using Newtonsoft.Json;
+using Utf8Json;
+using Utf8Json.Resolvers;
 
 namespace Station.Client.Services {
 	internal sealed class JsonConverter : IJsonConverter {
 
-		private readonly JsonSerializerSettings _settings;
-
 		public JsonConverter() {
-			_settings = new JsonSerializerSettings() {
-				DateParseHandling = DateParseHandling.None,
-				DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-				DateFormatHandling = DateFormatHandling.IsoDateFormat
-			};
+			JsonSerializer.SetDefaultResolver( StandardResolver.AllowPrivateExcludeNullCamelCase );
 		}
 
 		T IJsonConverter.Deserialize<T>( string value ) {
-			return JsonConvert.DeserializeObject<T>( value, _settings );
+			return JsonSerializer.Deserialize<T>( value );
 		}
 
 		string IJsonConverter.Serialize( object value ) {
-			if( value == default ) {
+			if( value is null ) {
 				return "{}";
 			}
-			return JsonConvert.SerializeObject( value, _settings );
+			return JsonSerializer.ToJsonString( value );
 		}
 	}
 }

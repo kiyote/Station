@@ -113,7 +113,7 @@ namespace Station.Server {
 
 			options.Events = new JwtBearerEvents {
 				OnMessageReceived = context => {
-					StringValues accessToken = context.Request.Query["access_token"];
+					string accessToken = context.Request.Query["access_token"].FirstOrDefault();
 
 					// If there is an access token supplied in the url, then
 					// we check to see if we're actually trying to service

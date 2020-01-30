@@ -43,8 +43,7 @@ namespace Station.Client.Services {
 			_connection = factory.Build();
 
 			_connection.Closed += exception => {
-				_connection.StartAsync();
-				return Task.CompletedTask;
+				return _connection.StartAsync();
 			};
 		}
 

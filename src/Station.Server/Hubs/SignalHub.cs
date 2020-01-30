@@ -19,7 +19,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
 using Station.Shared;
 
 namespace Station.Server.Hubs {
@@ -27,14 +26,7 @@ namespace Station.Server.Hubs {
 	public sealed class SignalHub : Hub {
 
 		public readonly static string Url = "/signalhub";
-		private readonly ILogger<SignalHub> _logger;
 		private string _username;
-
-		public SignalHub(
-			ILogger<SignalHub> logger
-		) {
-			_logger = logger;
-		}
 
 		public override async Task OnConnectedAsync() {
 			SetContextInformation();
@@ -49,9 +41,10 @@ namespace Station.Server.Hubs {
 		}
 
 		public Task GetTerrain( int chunkColumn, int chunkRow ) {
-			var chunk = new TerrainChunk();
-			chunk.ChunkColumn = chunkColumn;
-			chunk.ChunkRow = chunkRow;
+			var chunk = new TerrainChunk {
+				ChunkColumn = chunkColumn,
+				ChunkRow = chunkRow
+			};
 			return Clients.Caller.SendAsync( "TerrainChunk", chunk );
 		}
 

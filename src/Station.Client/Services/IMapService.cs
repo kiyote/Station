@@ -25,5 +25,7 @@ namespace Station.Client.Services {
 		Task SetVisibleArea( Rect area );
 
 		int GetTerrain( int column, int row );
+
+		int[] GetTerrainChunk( int chunkColumn, int chunkRow );
 	}
 }

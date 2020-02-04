@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Station.Shared;
 
 namespace Station.Client.Services.Map {
@@ -23,6 +20,11 @@ namespace Station.Client.Services.Map {
 		public void Put( TerrainChunk chunk ) {
 			long key = ChunkToKey( chunk.ChunkColumn, chunk.ChunkRow );
 			_chunks[key] = chunk;
+		}
+
+		public TerrainChunk Get( int chunkColumn, int chunkRow ) {
+			long key = ChunkToKey( chunkColumn, chunkRow );
+			return _chunks[key];
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

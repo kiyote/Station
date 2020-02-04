@@ -19,5 +19,7 @@ namespace Station.Client.Interop {
 		Task FillRect( string colour, int x, int y, int w, int h );
 
 		Task CopyRect( int sx, int sy, int sw, int sh, int dx, int dy );
+
+		Task RenderMapBlock( ElementReference image, int x, int y, int columns, int rows, int tileSize, int tileColumns, int tileRows, int[] tiles );
 	}
 }

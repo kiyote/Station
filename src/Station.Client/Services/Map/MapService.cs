@@ -65,6 +65,15 @@ namespace Station.Client.Services.Map {
 			return int.MinValue;
 		}
 
+		public int[] GetTerrainChunk( int chunkColumn, int chunkRow ) {
+			if (!_cache.Contains( chunkColumn, chunkRow )) {
+				return Array.Empty<int>();
+			}
+
+			TerrainChunk chunk = _cache.Get( chunkColumn, chunkRow );
+			return chunk.Terrain;
+		}
+
 		private void TerrainChunkCallback( TerrainChunk chunk ) {
 			_cache.Put( chunk );
 			if( _visibleArea.Contains(chunk.ChunkColumn, chunk.ChunkRow)) {

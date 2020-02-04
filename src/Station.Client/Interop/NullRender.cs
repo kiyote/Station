@@ -40,5 +40,9 @@ namespace Station.Client.Interop {
 		Task IRender.CopyRect( int sx, int sy, int sw, int sh, int x, int y ) {
 			throw new NotImplementedException();
 		}
+
+		Task IRender.RenderMapBlock( ElementReference image, int x, int y, int columns, int rows, int tileSize, int tileColumns, int tileRows, int[] tiles ) {
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -17,6 +17,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Station.Client.Interop;
+using Station.Shared;
 
 namespace Station.Client.Services.Map {
 	public class MapRenderer : IMapRenderer {
@@ -34,11 +35,21 @@ namespace Station.Client.Services.Map {
 			ElementReference terrainImage
 		) {
 			await terrainCanvas.Clear();
-			for( int y = 0; y < 100; y++ ) {
-				for( int x = 0; x < 100; x++ ) {
-					int terrain = _map.GetTerrain( x, y );
-					if (terrain > int.MinValue) {
-						await terrainCanvas.DrawSprite( terrainImage, 0, 0, 32, 32, ( x * 32 ), ( y * 32 ) );
+			for (int x = 0; x < 10; x ++) {
+				for (int y = 0; y < 10; y++) {
+					int[] terrain = _map.GetTerrainChunk( x, y );
+
+					if (terrain != Array.Empty<int>()) {
+						await terrainCanvas.RenderMapBlock(
+							terrainImage,
+							( x * TerrainChunk.ChunkSize * 32 ),
+							( y * TerrainChunk.ChunkSize * 32 ),
+							TerrainChunk.ChunkSize,
+							TerrainChunk.ChunkSize,
+							32,
+							10,
+							10,
+							terrain );
 					}
 				}
 			}

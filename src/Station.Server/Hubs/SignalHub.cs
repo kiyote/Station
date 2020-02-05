@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.SignalR;
 using Station.Shared;
 
 namespace Station.Server.Hubs {
-	[Authorize]
+	//[Authorize]  <- Uncomment this when they fix the SignalR client
 	public sealed class SignalHub : Hub {
 
 		public readonly static string Url = "/signalhub";

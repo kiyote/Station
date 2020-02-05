@@ -19,7 +19,7 @@ using Station.Client.Services;
 namespace Station.Client {
 	internal sealed class Config : IConfig {
 #if DEBUG
-		private static readonly string _host = "http://localhost:56140";
+		private static readonly string _host = "https://localhost:56141";
 		private static readonly string _cognitoUrl = "https://station-development.auth.us-east-1.amazoncognito.com";
 #else
 		private static readonly string _host = "";

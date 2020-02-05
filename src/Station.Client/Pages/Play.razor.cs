@@ -131,17 +131,17 @@ namespace Station.Client.Pages {
 			await _render.Clear();
 			await _render.DrawStrokedText( _font, Colour.White, $"FPS: {_frameCount}", 50, 30 );
 
+			if( _terrainDirty ) {
+				await MapRenderer.RenderTerrain( _terrainRender, AssetManager.Terrain.Value );
+				_terrainDirty = false;
+			}
+
 			_frameCounter++;
 			_elapsedTime += interval;
 			if( _elapsedTime >= 1000.0f ) {
 				_frameCount = _frameCounter;
 				_frameCounter = 0;
 				_elapsedTime -= 1000.0f;
-
-				if( _terrainDirty ) {
-					await MapRenderer.RenderTerrain( _terrainRender, AssetManager.Terrain.Value );
-					_terrainDirty = false;
-				}
 			}
 		}
 

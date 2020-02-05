@@ -15,8 +15,8 @@ limitations under the License.
 */
 using System;
 using System.Threading.Tasks;
-using BlazorSignalR;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
@@ -29,22 +29,20 @@ namespace Station.Client.Services {
 
 		public SignalService(
 			IAccessTokenProvider accessTokenProvider,
-			IJSRuntime jsRuntime,
 			NavigationManager navigationManager
 		) {
 			_connected = false;
 			HubConnectionBuilder factory = new HubConnectionBuilder();
 
-			factory.WithUrlBlazor( "/signalhub", jsRuntime, navigationManager, options: opt => {
-				opt.Transports = HttpTransportType.WebSockets | HttpTransportType.ServerSentEvents | HttpTransportType.LongPolling;
-				opt.AccessTokenProvider = accessTokenProvider.GetJwtToken;
-			} );
+			factory
+				.WithUrl( navigationManager.ToAbsoluteUri( "/signalhub" ), opt => {
+					opt.Transports = HttpTransportType.WebSockets | HttpTransportType.ServerSentEvents | HttpTransportType.LongPolling;
+					opt.AccessTokenProvider = accessTokenProvider.GetJwtToken;
+					opt.DefaultTransferFormat = TransferFormat.Binary;
+				} )
+				.WithAutomaticReconnect();
 
 			_connection = factory.Build();
-
-			_connection.Closed += exception => {
-				return _connection.StartAsync();
-			};
 		}
 
 		IDisposable ISignalService.Register<T>( string name, Action<T> handler ) {

@@ -28,8 +28,7 @@ namespace Station.Server {
 		public void ConfigureServices( IServiceCollection services ) {
 			services
 				.AddConnections()
-				.AddSignalR( o => o.KeepAliveInterval = TimeSpan.FromSeconds( 5 ) )
-				.AddJsonProtocol();
+				.AddSignalR( o => o.KeepAliveInterval = TimeSpan.FromSeconds( 5 ) );
 
 			services.AddAuthorization( options => {
 				options.AddPolicy( JwtBearerDefaults.AuthenticationScheme, policy => {

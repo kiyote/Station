@@ -19,7 +19,7 @@ using Station.Client.Services;
 namespace Station.Client {
 	internal sealed class Config : IConfig {
 #if DEBUG
-		private static readonly string _host = "https://localhost:56141";
+		private static readonly string _host = "https://localhost:5001";
 		private static readonly string _cognitoUrl = "https://station-development.auth.us-east-1.amazoncognito.com";
 #else
 		private static readonly string _host = "";
@@ -37,7 +37,7 @@ namespace Station.Client {
 
 		private static readonly string _logOutUrl = $"{_cognitoUrl}/logout?client_id={_cognitoClientId}";
 
-		private static readonly string _redirectUrl = $"{_host}{ValidateBase.Url}";
+		private static readonly string _redirectUrl = $"{_host}{ValidatePage.Url}";
 
 		string IServiceConfig.Host => _host;
 

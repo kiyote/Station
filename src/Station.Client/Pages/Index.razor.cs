@@ -7,9 +7,9 @@ using Microsoft.JSInterop;
 using Station.Client.State;
 
 namespace Station.Client.Pages {
-	public class IndexBase: ComponentBase {
+	public partial class Index {
 
-		public IndexBase() {
+		public Index() {
 			State = NullState.Instance;
 			JSRuntime = NullJSRuntime.Instance;
 		}
@@ -27,7 +27,7 @@ namespace Station.Client.Pages {
 		}
 
 		protected override async Task OnAfterRenderAsync( bool firstRender ) {
-			if ( JSRuntime == null || State == null ) {
+			if( JSRuntime == null || State == null ) {
 				return;
 			}
 

@@ -1,31 +1,31 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Station.Server.Hubs;
+using Station.Server.Middleware;
 using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Primitives;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Station.Server.Hubs;
-using Station.Server.Middleware;
 
 namespace Station.Server {
-	public class Startup {
-		public Startup( IConfiguration configuration ) {
-			Configuration = configuration;
-		}
+    public class Startup {
+        public Startup(IConfiguration configuration) {
+            Configuration = configuration;
+        }
 
-		public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-		public void ConfigureServices( IServiceCollection services ) {
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public void ConfigureServices(IServiceCollection services) {
 			services
 				.AddConnections()
 				.AddSignalR( o => o.KeepAliveInterval = TimeSpan.FromSeconds( 5 ) );
@@ -42,7 +42,6 @@ namespace Station.Server {
 				.AddAuthentication( JwtBearerDefaults.AuthenticationScheme )
 				.AddJwtBearer( JwtBearerDefaults.AuthenticationScheme, SetJwtBearerOptions );
 
-			// TODO: Determine if this is still needed for SignalR
 			services.AddCors( options => options.AddPolicy( "CorsPolicy",
 				 builder => {
 					 builder.AllowAnyMethod()
@@ -50,44 +49,41 @@ namespace Station.Server {
 						 .AllowAnyOrigin();
 				 } ) );
 
-			services
-				.AddMvc()
-				.SetCompatibilityVersion( Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0 )
-				.AddNewtonsoftJson( options => {
-					options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-					options.SerializerSettings.DateParseHandling = DateParseHandling.None;
-					options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
-				} );
-			services.AddResponseCompression( opts => {
-				opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-					new[] { "application/octet-stream" } );
-			} );
+			services.AddControllers();
+            services.AddRazorPages();
 
 			services.AddHttpContextAccessor();
 			services.AddSingleton<IContextInformation, ContextInformation>();
 		}
 
-		public void Configure( IApplicationBuilder app, IWebHostEnvironment env ) {
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            if (env.IsDevelopment()) {
+                app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
+            } else {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
 
-			if( env.IsDevelopment() ) {
-				app.UseDeveloperExceptionPage();
-				app.UseBlazorDebugging();
-			}
 			app.UseCors( "CorsPolicy" );
-			app.UseClientSideBlazorFiles<Client.Program>();
+			app.UseHttpsRedirection();
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
+			app.UseIdentificationMiddleware();
 			app.UseRouting();
-			app.UseResponseCompression();
+
 			app.UseAuthorization();
 			app.UseAuthentication();
-			app.UseIdentificationMiddleware();
 
-			app
-				.UseEndpoints( endpoints => {
-					endpoints.MapHub<SignalHub>( SignalHub.Url );
-					endpoints.MapDefaultControllerRoute();
-					endpoints.MapFallbackToClientSideBlazor<Client.Program>( "index.html" );
-				} );
-		}
+			app.UseEndpoints(endpoints => {
+				endpoints.MapHub<SignalHub>( SignalHub.Url );
+				endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
+            });
+        }
 
 		private void SetJwtBearerOptions( JwtBearerOptions options ) {
 			TokenValidationOptions tokenValidationOptions = Configuration.GetSection( "TokenValidation" ).Get<TokenValidationOptions>();

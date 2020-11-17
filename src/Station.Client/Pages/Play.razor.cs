@@ -1,18 +1,3 @@
-/*
- * Copyright 2018-2019 Todd Lang
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -23,7 +8,7 @@ using Station.Client.Interop;
 using Station.Shared;
 
 namespace Station.Client.Pages {
-	public class PlayBase : ComponentBase, IAnimCallback, IDisposable {
+	public partial class Play : IAnimCallback, IDisposable {
 
 		protected ElementReference? Canvas { get; set; }
 		protected ElementReference? TerrainCanvas { get; set; }
@@ -51,7 +36,7 @@ namespace Station.Client.Pages {
 
 		[Inject] protected IMapService Map { get; set; }
 
-		[CascadingParameter] protected AssetManagerBase AssetManager { get; set; }
+		[CascadingParameter] protected AssetManager AssetManager { get; set; }
 
 		protected int Width {
 			get {
@@ -71,7 +56,7 @@ namespace Station.Client.Pages {
 			}
 		}
 
-		public PlayBase() {
+		public Play() {
 			Width = 800;
 			Height = 600;
 			JsRuntime = NullJSRuntime.Instance;

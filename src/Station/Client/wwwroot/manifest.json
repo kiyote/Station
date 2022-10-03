@@ -1,6 +1,6 @@
 {
-  "name": "BlazorPhaser",
-  "short_name": "BlazorPhaser",
+  "name": "Station",
+  "short_name": "Station",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",

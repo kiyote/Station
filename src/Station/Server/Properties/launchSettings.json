@@ -8,7 +8,7 @@
       }
     },
     "profiles": {
-      "BlazorPhaser.Server": {
+      "Station.Server": {
         "commandName": "Project",
         "dotnetRunMessages": true,
         "launchBrowser": true,

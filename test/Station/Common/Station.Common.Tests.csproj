@@ -8,4 +8,8 @@
 		<PackageReference Include="coverlet.collector" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="$(SolutionDir)src\Station\Common\Station.Common.csproj" />
+	</ItemGroup>
+
 </Project>

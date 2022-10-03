@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="$(SolutionDir)src\Station\Client\Station.Client.csproj" />
+		<ProjectReference Include="$(SolutionDir)src\Station\Common\Station.Common.csproj" />
+	</ItemGroup>
+
+
+</Project>

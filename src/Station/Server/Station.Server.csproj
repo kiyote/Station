@@ -5,8 +5,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="$(SolutionDir)src\Station\Client\Station.Client.csproj" />
-		<ProjectReference Include="$(SolutionDir)src\Station\Common\Station.Common.csproj" />
+		<ProjectReference Include="..\..\..\src\Station\Client\Station.Client.csproj" />
+		<ProjectReference Include="..\..\..\src\Station\Common\Station.Common.csproj" />
 	</ItemGroup>
 
 

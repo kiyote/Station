@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.cs'
+      - '**.csproj'
+      - '**.sln'
+      - '.editorconfig'
+      - '.Build.props'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    paths:
+      - '**.cs'
+      - '**.csproj'
+      - '**.sln'
+      - '.editorconfig'
+      - '.Build.props'
+      - '.github/workflows/ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            6.0.x
+            
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test /p:Configuration=Release --no-build --verbosity normal      

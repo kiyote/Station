@@ -40,4 +40,27 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test /p:Configuration=Release --no-build --verbosity normal      
+        run: dotnet test /p:Configuration=Release --no-build --verbosity normal
+
+  plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: dev
+        
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: hashicorp/setup-terraform@v2
+        with:
+           terraform_version: ${{ env.TERRAFORM_VERSION }}
+         
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform/environments/${{ github.event.inputs.environment }}
+
+      - name: Terraform Plan
+        run: terraform plan -input=false -lock=false -out="${{ env.PLAN_DIR }}/terraform.plan"
+        working-directory: terraform/environments/${{ github.event.inputs.environment }}        

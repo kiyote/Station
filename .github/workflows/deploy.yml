@@ -80,6 +80,8 @@ jobs:
       - name: Terraform Init
         run: terraform init
         working-directory: terraform/environments/${{ github.event.inputs.environment }}
+        env:
+          TF_LOG: trace
 
       - name: Terraform Plan
         run: terraform plan -input=false -lock=false -out="${{ env.PLAN_DIR }}/terraform.plan"

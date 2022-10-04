@@ -11,6 +11,7 @@ on:
       - '.Build.props'
       - '.github/workflows/ci.yml'
   pull_request:
+    branches: [ 'dev/**' ]
     paths:
       - '**.cs'
       - '**.csproj'
@@ -65,8 +66,8 @@ jobs:
          
       - name: Terraform Init
         run: terraform init
-        working-directory: ${{ env.PLAN_DIR }}
+        working-directory: terraform/environments/dev
 
       - name: Terraform Plan
         run: terraform plan -input=false -lock=false -out="${{ env.PLAN_DIR }}/terraform.plan"
-        working-directory: ${{ env.PLAN_DIR }}       
+        working-directory: terraform/environments/dev 

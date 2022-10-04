@@ -11,7 +11,8 @@ on:
       - '.Build.props'
       - '.github/workflows/ci.yml'
   pull_request:
-    branches: [ 'dev/**' ]
+    branches:
+      - 'dev/**'
     paths:
       - '**.cs'
       - '**.csproj'

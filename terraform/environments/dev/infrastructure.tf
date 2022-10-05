@@ -3,8 +3,3 @@ module "station" {
 
     object_prefix = "station.dev."
 }
-
-variable "repo_token" {
-    type = string
-    default = ""
-}

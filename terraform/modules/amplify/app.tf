@@ -30,6 +30,11 @@ paths: []
         status = "200"
         target = "/index.html"
     }
+
+    enable_auto_branch_creation = true
+    auto_branch_creation_config {
+        enable_auto_build = true
+    }
 }
 
 resource "aws_amplify_branch" "main" {
@@ -37,5 +42,4 @@ resource "aws_amplify_branch" "main" {
     branch_name = "main"
     stage = "PRODUCTION"
     framework = "Blazor"
-    enable_auto_build = true
 }

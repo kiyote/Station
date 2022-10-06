@@ -6,6 +6,7 @@ module "station" {
 }
 
 variable "repo_token" {
+  description = "Carries the access token for the repository."
   type = string
   default = ""
   sensitive = true

@@ -8,7 +8,4 @@ variable "object_prefix" {
 
 variable "repo_token" {
   type = string
-  default = ""
-  sensitive = true
-  nullable = false
 }   

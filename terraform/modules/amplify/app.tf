@@ -1,7 +1,8 @@
 resource "aws_amplify_app" "station" {
     name = "Station"
-    repository = "https://github.com/kiyote/Station/tree/main"
+    repository = "https://github.com/kiyote/Station"
     access_token = var.repo_token
+    enable_branch_auto_build = true
 
     build_spec = <<-EOT
         version: 1

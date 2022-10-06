@@ -1,5 +1,5 @@
 
-resource "aws_iam_policy_document" "amplify_assume_role_policy_document" {
+data "aws_iam_policy_document" "amplify_assume_role_policy_document" {
     statement {
         effect = "Allow"
         actions = [

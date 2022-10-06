@@ -36,10 +36,3 @@ frontend:
         enable_auto_build = true
     }
 }
-
-resource "aws_amplify_branch" "main" {
-    app_id = aws_amplify_app.station.id
-    branch_name = "main"
-    stage = "PRODUCTION"
-    framework = "Blazor"
-}

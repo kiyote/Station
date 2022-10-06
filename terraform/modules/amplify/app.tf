@@ -16,7 +16,7 @@ frontend:
         - ./dotnet6/dotnet --version
     build:
       commands:
-        - ./dotnet6/dotnet publish -c Release -o releas
+        - ./dotnet6/dotnet publish -c Release -o release
   artifacts:
     baseDirectory: /release/wwwroot
     files:

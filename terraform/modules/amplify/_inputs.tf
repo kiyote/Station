@@ -1,3 +1,7 @@
 variable "object_prefix" {
   type = string
 }
+
+variable "repo_token" {
+  type = string
+}

@@ -75,22 +75,31 @@ jobs:
         
     steps:
       - name: Checkout
+        id: checkout
         uses: actions/checkout@v3
 
       - name: Setup
+        id: setup
         uses: hashicorp/setup-terraform@v2
         with:
            terraform_version: ${{ env.TERRAFORM_VERSION }}
 
       - name: Terraform Init
+        id: init
         run: terraform init
         working-directory: terraform/environments/${{ github.event.inputs.environment }}
 
       - name: Restore Plan
+        id: plan
         uses: actions/download-artifact@v3
         with:
           name: plan
 
       - name: Terraform Apply
+        id: apply
         run: terraform apply -input=false "${{ env.PLAN_DIR }}/terraform.plan"
         working-directory: terraform/environments/${{ github.event.inputs.environment }}
+
+      - name: 'Dump Output'
+        id: dump
+        run: echo ${{ steps.plan.outputs.tf_actions_output}}

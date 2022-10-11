@@ -38,6 +38,7 @@ resource "aws_amplify_branch" "main" {
   branch_name = "main"
   framework = "Blazor"
   stage = var.amplify_stage
+  enable_auto_build = false
 }
 
 resource "aws_amplify_webhook" "main" {

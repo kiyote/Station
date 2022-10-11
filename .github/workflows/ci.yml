@@ -1,16 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - '**.cs'
-      - '**.csproj'
-      - '**.sln'
-      - '.editorconfig'
-      - '.Build.props'
-      - '.github/workflows/ci.yml'
-      - '**.tf'
   pull_request:
     branches: [ main ]
     paths:
@@ -57,7 +47,7 @@ jobs:
     name: Terraform Plan
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    environment: review
+    environment: dev
         
     steps:
       - name: Checkout

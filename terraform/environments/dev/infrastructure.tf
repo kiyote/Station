@@ -3,6 +3,7 @@ module "station" {
 
     object_prefix = "station.dev."
     repo_token = var.repo_token
+    amplify_stage = "DEVELOPMENT"
 }
 
 variable "repo_token" {

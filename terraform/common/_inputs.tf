@@ -8,4 +8,10 @@ variable "object_prefix" {
 
 variable "repo_token" {
   type = string
-}   
+}
+
+variable "amplify_stage" {
+  type = string
+  nullable = false
+  default = "DEVELOPMENT"
+}

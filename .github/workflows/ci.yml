@@ -69,3 +69,7 @@ jobs:
         id: plan
         run: terraform plan -input=false -lock=false -out="${{ env.PLAN_DIR }}/terraform.plan"
         working-directory: terraform/environments/dev 
+
+      - name: 'Dump Output'
+        id: dump
+        run: echo ${{ steps.plan.outputs.tf_actions_output}}

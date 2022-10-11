@@ -3,6 +3,7 @@ resource "aws_amplify_app" "station" {
     repository = "https://github.com/kiyote/Station"
     access_token = var.repo_token
     iam_service_role_arn = aws_iam_role.app_role.arn
+    platform = "WEB"
 
     build_spec = <<-EOT
 version: 1
@@ -30,9 +31,16 @@ frontend:
         status = "200"
         target = "/index.html"
     }
+}
 
-    enable_auto_branch_creation = true
-    auto_branch_creation_config {
-        enable_auto_build = true
-    }
+resource "aws_amplify_branch" "main" {
+  app_id = aws_amplify_app.station.id
+  branch_name = "main"
+  framework = "Blazor"
+  stage = var.amplify_stage
+}
+
+resource "aws_amplify_webhook" "main" {
+  app_id = aws_amplify_app.station.id
+  branch_name = aws_amplify_branch.main.branch_name
 }

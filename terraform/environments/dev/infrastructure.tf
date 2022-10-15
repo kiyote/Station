@@ -15,5 +15,5 @@ variable "repo_token" {
 }
 
 output "build_webhook" {
-  value = module.amplify.amplify_webhook_url
+  value = module.amplify_webhook_url
 }

@@ -13,3 +13,7 @@ variable "repo_token" {
   sensitive = true
   nullable = false
 }
+
+output "build_url" {
+  value = module.amplify.amplify_webhook_url
+}

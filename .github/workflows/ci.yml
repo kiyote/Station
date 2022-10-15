@@ -69,7 +69,3 @@ jobs:
         id: plan
         run: terraform plan -input=false -lock=false -out="${{ env.PLAN_DIR }}/terraform.plan"
         working-directory: terraform/environments/dev 
-
-      - name: 'Dump Output'
-        id: dump
-        run: terraform output -raw amplify_webhook_url

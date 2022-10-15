@@ -102,4 +102,4 @@ jobs:
 
       - name: 'Dump Output'
         id: dump
-        run: echo ${{ steps.plan.outputs.tf_actions_output}}
+        run: terraform output -raw amplify_webhook_url

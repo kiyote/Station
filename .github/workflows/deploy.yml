@@ -103,7 +103,7 @@ jobs:
       - name: Webclient Build URL
         id: url
         run: |
-          echo "WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url)" >> $GITHUB_ENV
+          echo WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url) >> $GITHUB_ENV
 
       - name: Trigger Webclient Build
         id: web_build

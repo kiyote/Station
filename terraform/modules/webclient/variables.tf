@@ -9,3 +9,11 @@ variable "repo_token" {
 variable "amplify_stage" {
   type = string
 }
+
+variable "source_repository" {
+  type = string
+}
+
+variable "source_repository_branch" {
+  type = string
+}

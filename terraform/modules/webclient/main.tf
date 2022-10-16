@@ -37,7 +37,7 @@ resource "aws_amplify_branch" "main" {
   app_id = aws_amplify_app.station.id
   branch_name = var.source_repository_branch
   framework = "Blazor"
-  stage = var.amplify_stage
+  stage = var.webclient_stage
   enable_auto_build = false
 }
 

@@ -6,7 +6,7 @@ variable "repo_token" {
   type = string
 }
 
-variable "amplify_stage" {
+variable "webclient_stage" {
   type = string
 }
 

@@ -83,7 +83,6 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
            terraform_version: ${{ env.TERRAFORM_VERSION }}
-           terraform_wrapper: false
 
       - name: Terraform Init
         id: init
@@ -98,13 +97,15 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -input=false "${{ env.PLAN_DIR }}/terraform.plan"
+        run: |
+          terraform apply -input=false "${{ env.PLAN_DIR }}/terraform.plan"
         working-directory: terraform/environments/${{ github.event.inputs.environment }}
 
       - name: Webclient Build
         id: url
         run: |
           echo WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url) >> $GITHUB_ENV
+        working-directory: terraform/environments/${{ github.event.inputs.environment }}
 
       - name: Trigger Webclient Build
         id: web_build

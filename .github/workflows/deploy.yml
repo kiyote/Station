@@ -102,4 +102,4 @@ jobs:
 
       - name: 'Dump Output'
         id: dump
-        run: terraform output -raw webclient_build_url
+        run: terraform output

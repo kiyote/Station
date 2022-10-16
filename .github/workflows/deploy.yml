@@ -83,6 +83,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
            terraform_version: ${{ env.TERRAFORM_VERSION }}
+           terraform_wrapper: false
 
       - name: Terraform Init
         id: init
@@ -100,12 +101,8 @@ jobs:
         run: terraform apply -input=false "${{ env.PLAN_DIR }}/terraform.plan"
         working-directory: terraform/environments/${{ github.event.inputs.environment }}
 
-      - name: Webclient Build URL
+      - name: Webclient Build
         id: url
-        run: |
-          echo WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url) >> $GITHUB_ENV
-
-      - name: Trigger Webclient Build
-        id: web_build
-        run: |
-          curl -X POST -d {} "${{ env.WEBCLIENT_BUILD_URL }}&operation=startbuild" -H "Content-Type:application/json"       
+        uses: muinmomim/webhook-action@v1.0.0
+        with:
+          url: "$(terraform output -raw webclient_build_url)&operation=startbuild"

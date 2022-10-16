@@ -18,6 +18,7 @@ jobs:
         with:
            terraform_version: ${{ env.TERRAFORM_VERSION }}
         working-directory: terraform/environments/dev
-        run: |
+      - run: |
           terraform init
           terraform destroy -target=station.dev.app_role
+        working-directory: terraform/environments/dev

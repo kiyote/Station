@@ -100,7 +100,8 @@ jobs:
         run: terraform apply -input=false "${{ env.PLAN_DIR }}/terraform.plan"
         working-directory: terraform/environments/${{ github.event.inputs.environment }}
 
-#      - name: 'Dump Output'
-#        id: dump
-#        run: terraform output
-#        working-directory: terraform/environments/${{ github.event.inputs.environment }}
+      - name: Webclient Build
+        id: web_build
+        run: |
+          url = $(terraform output -raw webclient_build_url)
+          curl -X POST -d {} "${{ env.url }}&operation=startbuild" -H "Content-Type:application/json"

@@ -21,26 +21,6 @@ variable "aws_deployment_role" {
   type = string
 }
 
-variable "aws_state_bucket" {
-  description = "The name of the bucket that the deployment state for this project is to be stored in."
-  type = string
-}
-
-variable "aws_state_locktable" {
-  description = "The name of the dynamodb table used to hold the state lock."
-  type = string
-}
-
-variable "aws_state_key" {
-  description = "The S3 key where the state will be written."
-  type = string
-}
-
-variable "aws_state_role" {
-  description = "The role used to read and write the terraform state in S3."
-  type = string
-}
-
 variable "source_repository" {
   description = "The git repository containing the webclient source."
   type = string

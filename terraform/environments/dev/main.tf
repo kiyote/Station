@@ -1,13 +1,5 @@
-# For deploying AWS resources
-provider "aws" {
-  region = var.aws_region
-
-  assume_role {
-    role_arn = var.aws_deployment_role
-  }
-}
-
 # For managing the terraform state
+# Variables cannot be used in the `terraform` block
 terraform {
   backend "s3" {
     dynamodb_table = "kiyote.terraformstate"
@@ -18,6 +10,17 @@ terraform {
   }
 }
 
+# For deploying AWS resources
+provider "aws" {
+  region = var.aws_region
+
+  assume_role {
+    role_arn = var.aws_deployment_role
+  }
+}
+
+# Resources that make up the application below
+# ********************************************
 module "webclient" {
     source = "../../modules/webclient"
 

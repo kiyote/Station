@@ -1,3 +1,15 @@
+# For managing the terraform state
+# Variables cannot be used in the `terraform` block
+terraform {
+  backend "s3" {
+    dynamodb_table = "kiyote.terraformstate"
+    bucket = "kiyote.terraformstate"
+    key    = "prod/station"
+    region = "ca-central-1"
+    role_arn = "arn:aws:iam::860568434255:role/terraform_state_prod"
+  }
+}
+
 # For deploying AWS resources
 provider "aws" {
   region = var.aws_region
@@ -7,17 +19,8 @@ provider "aws" {
   }
 }
 
-# For managing the terraform state
-terraform {
-  backend "s3" {
-    dynamodb_table = var.aws_state_locktable
-    bucket = var.aws_state_bucket
-    key    = var.aws_state_key
-    region = var.aws_region
-    role_arn = var.aws_state_role
-  }
-}
-
+# Resources that make up the application below
+# ********************************************
 module "webclient" {
     source = "../../modules/webclient"
 

@@ -50,3 +50,8 @@ variable "source_repository_branch" {
   description = "The branch within the repository containing the source to deploy."
   type = string
 }
+
+variable "webclient_stage" {
+  description = "The deployment stage for the webclient application.  DEVELOPMENT or PRODUCTION"
+  type = string
+}

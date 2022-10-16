@@ -102,4 +102,4 @@ jobs:
 
       - name: 'Dump Output'
         id: dump
-        run: terraform output -raw module.amplify.amplify_webhook_url
+        run: terraform output -raw module.station.webclient_build_url

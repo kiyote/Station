@@ -108,19 +108,7 @@ jobs:
           echo WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url) >> $GITHUB_ENV
         working-directory: terraform/environments/${{ github.event.inputs.environment }}
 
-      - name: Deploy Webclient
-        id: deploy
-        uses: dkershner6/post-api-call-action@v1
-        with:
-          url: "${{ env.WEBCLIENT_BUILD_URL }}&operation=startbuild"
-
-#      - name: Get Webclient Build URL
-#        id: url
-#        run: |
-#          echo WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url) >> $GITHUB_ENV
-#        working-directory: terraform/environments/${{ github.event.inputs.environment }}
-
-#      - name: Trigger Webclient Build
-#        id: web_build
-#        run: |
-#          curl -X POST -d {} "${{ env.WEBCLIENT_BUILD_URL }}&operation=startbuild" -H "Content-Type:application/json"       
+      - name: Trigger Webclient Build
+        id: web_build
+        run: |
+          curl -X POST -d {} "${{ env.WEBCLIENT_BUILD_URL }}&operation=startbuild" -H "Content-Type:application/json"       

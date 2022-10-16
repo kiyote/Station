@@ -102,10 +102,12 @@ jobs:
 
       - name: Webclient Build URL
         id: url
-        run: echo "::set-output name=BUILD_URL::$(terraform output -raw webclient_build_url)"
+        run: >-
+          echo "::set-output name=BUILD_URL::$(
+            terraform output -raw webclient_build_url
+          )"
 
       - name: Trigger Webclient Build
         id: web_build
-        run: |
-          
-          curl -X POST -d {} "${{ steps.url.outputs.BUILD_URL }}&operation=startbuild" -H "Content-Type:application/json"
+        run: >-
+          curl -X POST -d {} "${{ steps.url.outputs.BUILD_URL }}&operation=startbuild" -H "Content-Type:application/json"       

@@ -68,4 +68,4 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -input=false -lock=false -out="${{ env.PLAN_DIR }}/terraform.plan"
-        working-directory: terraform/environments/dev 
+        working-directory: terraform/environments/dev

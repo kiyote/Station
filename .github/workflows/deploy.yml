@@ -102,11 +102,11 @@ jobs:
           terraform apply -input=false "${{ env.PLAN_DIR }}/terraform.plan"
         working-directory: terraform/environments/${{ github.event.inputs.environment }}
 
-      - name: Get Webclient Build URL
-        id: url
-        run: |
-          echo WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url) >> $GITHUB_ENV
-        working-directory: terraform/environments/${{ github.event.inputs.environment }}
+      #- name: Get Webclient Build URL
+      #  id: url
+      #  run: |
+      #    echo WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url) >> $GITHUB_ENV
+      #  working-directory: terraform/environments/${{ github.event.inputs.environment }}
 
       - name: Trigger Webclient Build
         id: web_build
@@ -114,3 +114,4 @@ jobs:
           WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url)
           echo "::add-mask::$WEBCLIENT_BUILD_URL"
           curl -X POST -d {} "$WEBCLIENT_BUILD_URL&operation=startbuild" -H "Content-Type:application/json"       
+        working-directory: terraform/environments/${{ github.event.inputs.environment }}

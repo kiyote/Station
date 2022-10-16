@@ -103,5 +103,5 @@ jobs:
       - name: Webclient Build
         id: web_build
         run: |
-          url = $(terraform output -raw webclient_build_url)
-          curl -X POST -d {} "${{ env.url }}&operation=startbuild" -H "Content-Type:application/json"
+          ::set-output name=BUILD_URL::$(terraform output -raw webclient_build_url)
+          curl -X POST -d {} "${{ steps.web_build.BUILD_URL }}&operation=startbuild" -H "Content-Type:application/json"

@@ -100,7 +100,7 @@ jobs:
         run: terraform apply -input=false "${{ env.PLAN_DIR }}/terraform.plan"
         working-directory: terraform/environments/${{ github.event.inputs.environment }}
 
-      - name: 'Dump Output'
-        id: dump
-        run: terraform output
-        working-directory: terraform/environments/${{ github.event.inputs.environment }}
+#      - name: 'Dump Output'
+#        id: dump
+#        run: terraform output
+#        working-directory: terraform/environments/${{ github.event.inputs.environment }}

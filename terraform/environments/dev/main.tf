@@ -10,11 +10,11 @@ provider "aws" {
 # For managing the terraform state
 terraform {
   backend "s3" {
-    dynamodb_table = var.aws_state_locktable
-    bucket = var.aws_state_bucket
-    key    = var.aws_state_key
-    region = var.aws_region
-    role_arn = var.aws_state_role
+    dynamodb_table = "kiyote.terraformstate"
+    bucket = "kiyote.terraformstate"
+    key    = "dev/station"
+    region = "ca-central-1"
+    role_arn = "arn:aws:iam::860568434255:role/station_deploy_dev"
   }
 }
 

@@ -111,4 +111,6 @@ jobs:
       - name: Trigger Webclient Build
         id: web_build
         run: |
-          curl -X POST -d {} "${{ env.WEBCLIENT_BUILD_URL }}&operation=startbuild" -H "Content-Type:application/json"       
+          WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url)
+          echo "::add-mask::$WEBCLIENT_BUILD_URL"
+          curl -X POST -d {} "$WEBCLIENT_BUILD_URL&operation=startbuild" -H "Content-Type:application/json"       

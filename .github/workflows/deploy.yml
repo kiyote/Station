@@ -103,6 +103,10 @@ jobs:
 
       - name: Webclient Build
         id: url
-        uses: muinmomim/webhook-action@v1.0.0
-        with:
-          url: "$(terraform output -raw webclient_build_url)&operation=startbuild"
+        run: |
+          echo WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url) >> $GITHUB_ENV
+
+      - name: Trigger Webclient Build
+        id: web_build
+        run: |
+          curl -X POST -d {} "${{ env.WEBCLIENT_BUILD_URL }}&operation=startbuild" -H "Content-Type:application/json"       

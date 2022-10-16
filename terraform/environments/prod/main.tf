@@ -19,7 +19,7 @@ terraform {
 }
 
 module "webclient" {
-    source = "../modules/webclient"
+    source = "../../modules/webclient"
 
     object_prefix = var.object_prefix
     repo_token = var.repo_token

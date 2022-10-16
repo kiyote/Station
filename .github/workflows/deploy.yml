@@ -102,11 +102,17 @@ jobs:
           terraform apply -input=false "${{ env.PLAN_DIR }}/terraform.plan"
         working-directory: terraform/environments/${{ github.event.inputs.environment }}
 
+      - name: Get Webclient Build URL
+        id: url
+        run: |
+          echo WEBCLIENT_BUILD_URL=$(terraform output -raw webclient_build_url) >> $GITHUB_ENV
+        working-directory: terraform/environments/${{ github.event.inputs.environment }}
+
       - name: Deploy Webclient
         id: deploy
         uses: dkershner6/post-api-call-action@v1
         with:
-          url: "$(terraform output -raw webclient_build_url)&operation=startbuild"
+          url: "${{ env.WEBCLIENT_BUILD_URL }}&operation=startbuild"
 
 #      - name: Get Webclient Build URL
 #        id: url

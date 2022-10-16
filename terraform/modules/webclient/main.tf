@@ -2,7 +2,7 @@ resource "aws_amplify_app" "station" {
     name = "Station"
     repository = var.source_repository
     access_token = var.repo_token
-    iam_service_role_arn = aws_iam_role.app_role.arn
+    iam_service_role_arn = aws_iam_role.webclient_role.arn
     platform = "WEB"
 
     build_spec = <<-EOT
@@ -59,13 +59,13 @@ data "aws_iam_policy_document" "amplify_assume_role_policy_document" {
     }
 }
 
-resource "aws_iam_role" "app_role" {
-    name = "${var.object_prefix}app_role"
+resource "aws_iam_role" "webclient_role" {
+    name = "${var.object_prefix}webclient_role"
 
     assume_role_policy = data.aws_iam_policy_document.amplify_assume_role_policy_document.json
 }
 
 resource "aws_iam_role_policy_attachment" "amplify_administrator" {
-    role = aws_iam_role.app_role.name
+    role = aws_iam_role.webclient_role.name
     policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess-Amplify"
 }

@@ -122,6 +122,6 @@ jobs:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           source: './release'
-          dest: 's3://station${{ github.event.inputs.environment }}.webclient'
+          dest: 's3://station.${{ github.event.inputs.environment }}.webclient'
           flags: --recursive
 

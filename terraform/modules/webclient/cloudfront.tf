@@ -45,5 +45,10 @@ resource "aws_cloudfront_distribution" "distribution_webclient" {
         forward = "none"
       }
     }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 30
+    max_ttl                = 60    
   }
 }

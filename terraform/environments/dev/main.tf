@@ -25,8 +25,4 @@ module "webclient" {
     source = "../../modules/webclient"
 
     object_prefix = var.object_prefix
-    repo_token = var.repo_token
-    webclient_stage = var.webclient_stage
-    source_repository = var.source_repository
-    source_repository_branch = var.source_repository_branch
 }

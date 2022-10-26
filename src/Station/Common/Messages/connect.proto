@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+option csharp_namespace = "Station.Shared";
+package station;
+
+message ConnectRequest {
+	string name = 1;
+}
+
+message ConnectResponse {
+	string pid = 1;
+}

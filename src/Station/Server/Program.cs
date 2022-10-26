@@ -1,36 +1,38 @@
-using Microsoft.AspNetCore.ResponseCompression;
+using Station.Server.Services;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton<GrpcService>();
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+builder.Services.AddGrpc();
+builder.Services.AddCors( o => o.AddPolicy( "AllowAll", builder => {
+	builder.AllowAnyOrigin()
+		   .AllowAnyMethod()
+		   .AllowAnyHeader()
+		   .WithExposedHeaders( "Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding" );
+} ) );
+builder.Services.AddControllers();
+builder.Services.AddResponseCompression();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseWebAssemblyDebugging();
-}
-else
-{
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+if (app.Environment.IsDevelopment()) {
+	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	app.UseHsts();
 }
 
+app.UseResponseCompression();
 app.UseHttpsRedirection();
-
-app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
-
 app.UseRouting();
-
-
-app.MapRazorPages();
-app.MapControllers();
-app.MapFallbackToFile("index.html");
+app.UseGrpcWeb();
+app.UseCors();
+app.UseEndpoints( endpoints => {
+	app.MapControllers();
+	endpoints.MapGrpcService<GrpcService>()
+		.EnableGrpcWeb()
+		.RequireCors( "AllowAll" );
+} );
 
 app.Run();

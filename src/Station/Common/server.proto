@@ -1,0 +1,9 @@
+﻿syntax = "proto3";
+option csharp_namespace = "Station.Shared";
+package station;
+
+import "Messages/connect.proto";
+
+service StationServer {
+	rpc Connect (ConnectRequest) returns (ConnectResponse);
+}

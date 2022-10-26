@@ -57,6 +57,6 @@ data "aws_iam_policy_document" "bucket_policy" {
 
 # Associates the above policy with the storage bucket
 resource "aws_s3_bucket_policy" "policy" {
-  bucket = aws_s3_bucket.bucket_website.bucket
+  bucket = aws_s3_bucket.bucket_webclient.bucket
   policy = data.aws_iam_policy_document.bucket_policy.json
 }

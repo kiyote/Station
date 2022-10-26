@@ -9,6 +9,11 @@ variable "aws_deployment_role" {
   type = string
 }
 
+variable "github_action_role" {
+  description = "The role that github actions are performed under."
+  type = string
+}
+
 variable "object_prefix" {
   description = "A value to add as a prefix to all deployed resources in order to disambiguate stage (prod vs dev)."
   type = string  

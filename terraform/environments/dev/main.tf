@@ -25,5 +25,5 @@ module "webclient" {
     source = "../../modules/webclient"
 
     object_prefix = var.object_prefix
-    aws_deployment_role = var.aws_deployment_role
+    bucket_copy_role = var.github_action_role
 }

@@ -2,7 +2,7 @@ variable "object_prefix" {
   type = string
 }
 
-variable "aws_deployment_role" {
-  description = "The role to assume in order to deploy AWS resources."
+variable "bucket_copy_role" {
+  description = "The role to allow permission to copy files in to the bucket."
   type = string
 }

@@ -36,7 +36,22 @@ resource "aws_s3_bucket_public_access_block" "bucket_public" {
 # The policy applied to the storage bucket
 data "aws_iam_policy_document" "bucket_policy" {
 
-  # Deny anything that isn't the listed actions to the role associated with this bucket access
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetObject"
+    ]
+    resources = [
+      "${aws_s3_bucket.bucket_webclient.arn}/*",
+    ]
+    principals {
+      type = "AWS"
+      identifiers = [
+        "${aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn}"
+      ]
+    }
+  }
+
   statement {
     effect = "Allow"
     actions = [

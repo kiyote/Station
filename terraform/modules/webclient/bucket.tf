@@ -28,3 +28,31 @@ resource "aws_s3_bucket_public_access_block" "bucket_public" {
     ignore_public_acls = true
     restrict_public_buckets = true
 }
+
+# The policy applied to the storage bucket
+data "aws_iam_policy_document" "bucket_policy" {
+
+  # Deny anything that isn't the listed actions to the role associated with this bucket access
+  statement {
+    effect = "Allow"
+    not_actions = [
+      "s3:PutObject"
+    ]
+    resources = [
+      "${aws_s3_bucket.bucket_website.arn}/*",
+      aws_s3_bucket.bucket_website.arn,
+    ]
+    principals {
+      type = "AWS"
+      identifiers = [
+        var.aws_deployment_role
+      ]
+    }
+  }
+}
+
+# Associates the above policy with the storage bucket
+resource "aws_s3_bucket_policy" "policy" {
+  bucket = aws_s3_bucket.bucket_website.bucket
+  policy = data.aws_iam_policy_document.bucket_policy.json
+}

@@ -45,9 +45,9 @@ data "aws_iam_policy_document" "bucket_policy" {
       "${aws_s3_bucket.bucket_webclient.arn}/*",
     ]
     principals {
-      type = "AWS"
+      type = "Service"
       identifiers = [
-        "${aws_cloudfront_origin_access_control.distribution_access.arn}"
+        "cloudfront.amazonaws.com"
       ]
     }
   }

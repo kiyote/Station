@@ -19,6 +19,7 @@ resource "aws_cloudfront_distribution" "distribution_webclient" {
   enabled = true
   is_ipv6_enabled = true
   default_root_object = "index.html"
+  price_class = "PriceClass_100"
 
   restrictions {
     geo_restriction {

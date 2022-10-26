@@ -1,4 +1,14 @@
 
+moved {
+    from = aws_s3_bucket.webclient
+    to = aws_s3_bucket.webclient_bucket
+}
+
+moved {
+    from = aws_s3_bucket_website_configuration.website
+    to = aws_s3_bucket_website_configuration.bucket_website
+}
+
 resource "aws_s3_bucket" "bucket_webclient" {
     bucket = "${var.object_prefix}webclient"
 

@@ -1,10 +1,12 @@
 
 resource "aws_s3_bucket" "bucket_webclient" {
     bucket = "${var.object_prefix}webclient"
+}
 
-    versioning {
-        enabled = false
-    }
+resource "aws_s3_bucket_versioning" "bucket_versioning" {
+  versioning_configuration {
+    status = "Disabled"
+  }
 }
 
 resource "aws_s3_bucket_website_configuration" "bucket_website" {
@@ -39,8 +41,8 @@ data "aws_iam_policy_document" "bucket_policy" {
       "s3:PutObject"
     ]
     resources = [
-      "${aws_s3_bucket.bucket_website.arn}/*",
-      aws_s3_bucket.bucket_website.arn,
+      "${aws_s3_bucket.bucket_webclient.arn}/*",
+      aws_s3_bucket.bucket_webclient.arn,
     ]
     principals {
       type = "AWS"

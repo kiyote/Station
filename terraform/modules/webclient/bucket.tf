@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "bucket_policy" {
       test = "StringEquals"
       variable = "AWS:SourceArn"
       values = [
-        "${var.cloudfront_prefix}${aws_cloudfront_origin_access_control.distribution_access.id}"
+        "${var.cloudfront_prefix}${aws_cloudfront_distribution.distribution_webclient.id}"
       ]
     }
   }

@@ -39,7 +39,7 @@ data "aws_iam_policy_document" "bucket_policy" {
   # Deny anything that isn't the listed actions to the role associated with this bucket access
   statement {
     effect = "Allow"
-    not_actions = [
+    actions = [
       "s3:PutObject"
     ]
     resources = [

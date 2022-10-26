@@ -19,7 +19,7 @@ variable "object_prefix" {
   type = string  
 }
 
-varible "cloudfront_prefix" {
+variable "cloudfront_prefix" {
   description = "Defines the ARN prefix for cloudfront distributions in this account."
   type = string
 }

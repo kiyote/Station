@@ -6,3 +6,7 @@ variable "bucket_copy_role" {
   description = "The role to allow permission to copy files in to the bucket."
   type = string
 }
+
+variable "cloudfront_prefix" {
+  type = string
+}

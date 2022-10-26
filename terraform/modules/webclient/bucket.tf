@@ -20,7 +20,7 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
     acl = "private"
 }
 
-resource "aws_s3_public_access_block" "bucket_public" {
+resource "aws_s3_bucket_public_access_block" "bucket_public" {
     bucket = aws_s3_bucket.bucket_webclient.bucket
 
     block_public_acls = true

@@ -26,4 +26,5 @@ module "webclient" {
 
     object_prefix = var.object_prefix
     bucket_copy_role = var.github_action_role
+    cloudfront_prefix = var.cloudfront_prefix
 }

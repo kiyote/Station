@@ -49,6 +49,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     principals {
       type = "AWS"
       identifiers = [
+        "arn:aws:iam::860568434255:user/github_station",
         var.aws_deployment_role
       ]
     }

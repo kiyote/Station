@@ -113,11 +113,13 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
-      - name: Publish
+      - name: Publish WebClient
         run: dotnet publish --no-build --no-restore --configuration Release --output release
+        working-directory: src/Station/Client
 
-      - name: Copy
+      - name: Copy WebClient
         uses: prewk/s3-cp-action@v2
+        working-directory: src/Station/Client
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

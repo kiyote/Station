@@ -20,7 +20,7 @@ resource "aws_instance" "server" {
   ]
 
   root_block_device {
-    volume_size = 1
+    volume_size = 8
     volume_type = "gp2"
   }
 }

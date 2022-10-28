@@ -16,7 +16,7 @@ resource "aws_instance" "server" {
   instance_type = local.instance_type
   associate_public_ip_address = true
   security_groups = [
-    aws_security_group.server.id
+    aws_security_group.server.name
   ]
 
   root_block_device {

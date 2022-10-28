@@ -28,3 +28,9 @@ module "webclient" {
     bucket_copy_role = var.github_action_role
     cloudfront_prefix = var.cloudfront_prefix    
 }
+
+module "server" {
+    source = "../../modules/server"
+
+    object_prefix = var.object_prefix
+}

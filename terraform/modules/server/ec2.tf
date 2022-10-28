@@ -15,8 +15,8 @@ resource "aws_instance" "server" {
   ami = data.aws_ami.amazon_linux.id
   instance_type = local.instance_type
   associate_public_ip_address = true
-  security_group_ids = [
-    aws_security_group.server.security_group_id
+  security_groups = [
+    aws_security_group.server.id
   ]
 
   root_block_device {

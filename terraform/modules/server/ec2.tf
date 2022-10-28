@@ -12,11 +12,11 @@ data "aws_ami" "amazon_linux" {
 }
 
 resource "aws_instance" "server" {
-  ami = data.aws_ami.amazon_linux
+  ami = data.aws_ami.amazon_linux.id
   instance_type = local.instance_type
   associate_public_ip_address = true
-  security_groups = [
-    aws_security_group.server
+  security_group_ids = [
+    aws_security_group.server.security_group_id
   ]
 
   root_block_device {
@@ -39,7 +39,7 @@ resource "aws_security_group_rule" "server_egress" {
   protocol = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
   ipv6_cidr_blocks = ["::/0"]
-  security_group_id = aws_security_group.server
+  security_group_id = aws_security_group.server.id
 }
 
 resource "aws_security_group_rule" "server_ingress" {
@@ -49,5 +49,5 @@ resource "aws_security_group_rule" "server_ingress" {
   protocol = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
   ipv6_cidr_blocks = ["::/0"]
-  security_group_id = aws_security_group.server
+  security_group_id = aws_security_group.server.id
 }

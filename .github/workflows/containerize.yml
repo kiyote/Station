@@ -1,0 +1,27 @@
+name: Build Container
+
+on:
+  pull_request:
+    paths:
+    - 'docker-compose.yml'
+    - 'Dockerfile'
+    - '.github/workflows/containerize.yml'
+
+  workflow_dispatch:
+    inputs:
+      push:
+        description: 'Whether or not to push the docker image.'
+        required: true
+        default: 'false'
+
+jobs:
+    build:
+        runs-on: [self-hosted, Linux, AWS]
+        steps:
+          - uses: actions/checkout@v3
+          
+          - name: Build
+            run: |
+              docker build \
+                --no-cache \
+                --tag image .

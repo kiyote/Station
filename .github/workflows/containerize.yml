@@ -1,4 +1,4 @@
-name: Build Container
+name: Containerize
 
 on:
   pull_request:
@@ -16,7 +16,6 @@ on:
 
 jobs:
     build:
-        runs-on: [self-hosted, Linux, AWS]
         steps:
           - uses: actions/checkout@v3
           

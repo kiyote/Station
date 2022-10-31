@@ -1,9 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS DotNetSDK
 
-COPY ./src/Station /src
-WORKDIR /src
+COPY ./src/Station .
 RUN dotnet restore
-WORKDIR /src/Server
 RUN dotnet build --configuration Release --no-restore
 RUN dotnet publish --no-build --no-restore --configuration Release --output /release
 

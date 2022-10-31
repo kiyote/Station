@@ -5,4 +5,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5001:443"
-    command: Station.Server

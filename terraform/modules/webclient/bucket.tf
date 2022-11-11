@@ -50,13 +50,6 @@ data "aws_iam_policy_document" "bucket_policy" {
         "*"
       ]
     }
-/*    condition {
-      test = "StringEquals"
-      variable = "AWS:SourceArn"
-      values = [
-        "${var.cloudfront_prefix}${aws_cloudfront_distribution.distribution_webclient.id}"
-      ]
-    } */
   }
 
   statement {

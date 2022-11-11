@@ -11,5 +11,5 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 As DotNetRuntime
 WORKDIR /release
 COPY --from=DotNetSDK /release/ /
 WORKDIR /
-ENTRYPOINT ["dotnet", "Station.Server"]
+ENTRYPOINT ["dotnet", "Station.Server.dll"]
 

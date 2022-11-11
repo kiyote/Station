@@ -5,5 +5,5 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "5001:443"
+      - "5000:5000"
     image: station_server

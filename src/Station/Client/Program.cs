@@ -1,9 +1,8 @@
-using Station.Client;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.AspNetCore.Components;
 using Grpc.Net.Client;
 using Grpc.Net.Client.Web;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Station.Client;
 using Station.Shared;
 
 var builder = WebAssemblyHostBuilder.CreateDefault( args );
@@ -14,7 +13,8 @@ builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builde
 
 // Create the gRPC client
 builder.Services.AddSingleton( services => {
-	string baseUri = "https://localhost:5001/";
+	//string baseUri = "https://localhost:5001/";
+	string baseUri = "http://localhost:5000/";
 	var channel = GrpcChannel.ForAddress(
 		baseUri,
 		new GrpcChannelOptions {

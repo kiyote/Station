@@ -14,17 +14,23 @@ builder.Services.AddCors( o => o.AddPolicy( "AllowAll", builder => {
 } ) );
 builder.Services.AddControllers();
 builder.Services.AddResponseCompression();
+builder.WebHost.UseUrls(
+	new string[] {
+		//"https://+:5001",
+		"http://+:5000"
+	}
+	);
 
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment()) {
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+	//app.UseHsts();
 }
 
 app.UseResponseCompression();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseRouting();
 app.UseGrpcWeb();
 app.UseCors();

@@ -1,0 +1,13 @@
+.git
+.github
+.vs
+.vscode
+**/bin/
+**/obj/
+terraform
+.dockerignore
+.gitignore
+docker-compose.yml
+Dockerfile
+forceclean.ps1
+removebranches.sh

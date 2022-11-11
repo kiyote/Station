@@ -1,3 +1,4 @@
+version: "3.3"
 services:
   server:
     build:
@@ -5,3 +6,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5001:443"
+    image: station_server

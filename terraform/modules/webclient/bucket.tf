@@ -44,20 +44,20 @@ data "aws_iam_policy_document" "bucket_policy" {
     resources = [
       "${aws_s3_bucket.bucket_webclient.arn}/*",
     ]
-    principals {
-      type = "Service"
+     principals {
+      type = "*"
       identifiers = [
-        "cloudfront.amazonaws.com"
+        "*"
       ]
     }
-/*     condition {
+/*    condition {
       test = "StringEquals"
       variable = "AWS:SourceArn"
       values = [
         "${var.cloudfront_prefix}${aws_cloudfront_distribution.distribution_webclient.id}"
       ]
-    }
- */  }
+    } */
+  }
 
   statement {
     effect = "Allow"

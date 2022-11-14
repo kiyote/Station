@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "repository" {
     ]
     principals {
       type        = "AWS"
-      identifiers = var.container_publishing_role
+      identifiers = [ var.container_publishing_role ]
     }
   }
 }

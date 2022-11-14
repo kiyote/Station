@@ -33,5 +33,5 @@ module "server" {
    source = "../../modules/server"
 
    object_prefix = var.object_prefix
-   container_publishing_role = var.aws_deployment_role
+   container_publishing_role = var.github_action_role
 }

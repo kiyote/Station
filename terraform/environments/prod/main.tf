@@ -22,15 +22,16 @@ provider "aws" {
 # Resources that make up the application below
 # ********************************************
 module "webclient" {
-    source = "../../modules/webclient"
+  source = "../../modules/webclient"
 
-    object_prefix = var.object_prefix
-    bucket_copy_role = var.github_action_role
-    cloudfront_prefix = var.cloudfront_prefix    
+  object_prefix = var.object_prefix
+  bucket_copy_role = var.github_action_role
+  cloudfront_prefix = var.cloudfront_prefix    
 }
 
-#module "server" {
-#    source = "../../modules/server"
-#
-#    object_prefix = var.object_prefix
-#}
+module "server" {
+  source = "../../modules/server"
+
+  object_prefix = var.object_prefix
+  container_publishing_role = var.aws_deployment_role
+}

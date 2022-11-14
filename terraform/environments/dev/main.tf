@@ -29,8 +29,9 @@ module "webclient" {
     cloudfront_prefix = var.cloudfront_prefix
 }
 
-#module "server" {
-#    source = "../../modules/server"
-#
-#    object_prefix = var.object_prefix
-#}
+module "server" {
+   source = "../../modules/server"
+
+   object_prefix = var.object_prefix
+   container_publishing_role = var.aws_deployment_role
+}

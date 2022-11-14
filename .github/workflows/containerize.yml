@@ -25,8 +25,8 @@ jobs:
             with:
               role-to-assume: arn:aws:iam::860568434255:role/station_deploy_dev
               aws-region: ca-central-1
-              aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}          
+              aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}          
 
           - name: Login to Amazon ECR
             id: login-ecr

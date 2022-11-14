@@ -1,4 +1,7 @@
 name: Containerize
+permissions:
+  id-token: write
+  contents: read
 
 on:
   pull_request:
@@ -28,7 +31,7 @@ jobs:
             uses: aws-actions/configure-aws-credentials@v1 # More information on this action can be found below in the 'AWS Credentials' section
             with:
               role-to-assume: arn:aws:iam::860568434255:role/station_deploy_dev
-              aws-region: ca-central-1
+              aws-region: us-east-1
               aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
               aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
               role-duration-seconds: 900        

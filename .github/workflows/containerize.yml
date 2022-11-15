@@ -17,12 +17,6 @@ on:
         required: true
         default: 'false'
 
-env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: ca-cental-1
-  AWS_REGION: ca-central-1
-
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -30,14 +24,14 @@ jobs:
           - name: Check out repository
             uses: actions/checkout@v3
           
-          # - name: Configure AWS credentials
-          #   uses: aws-actions/configure-aws-credentials@v1
-          #   with:
-          #     role-to-assume: arn:aws:iam::860568434255:role/station_deploy_dev
-          #     aws-region: ca-central-1
-          #     role-duration-seconds: 900
-          #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          - name: Configure AWS credentials
+            uses: aws-actions/configure-aws-credentials@v1
+            with:
+              role-to-assume: arn:aws:iam::860568434255:role/station_deploy_dev
+              aws-region: ca-central-1
+              role-duration-seconds: 900
+              aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
           - name: Login to Amazon ECR
             id: login-ecr

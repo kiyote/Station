@@ -12,12 +12,23 @@ on:
       push:
         description: 'Whether or not to push the docker image.'
         required: true
-        default: 'false'
-
+        type: choice
+        default: 'true'
+        options:
+        - 'true'
+        - 'false'
+      environment:
+        required: true
+        type: choice
+        description: Select the environment
+        default: dev
+        options:
+        - dev
+        - prod
 jobs:
     build:
         runs-on: ubuntu-latest
-        environment: dev
+        environment: ${{ github.event.inputs.environment }}
         steps:
           - name: Check out repository
             uses: actions/checkout@v3
@@ -29,7 +40,7 @@ jobs:
               aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
               aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               role-duration-seconds: 900
-              role-to-assume: arn:aws:iam::860568434255:role/station_deploy_dev
+              role-to-assume: arn:aws:iam::860568434255:role/station_deploy_${{ github.event.inputs.environment }}
 
           - name: Login to Amazon ECR
             id: login-ecr
@@ -39,7 +50,7 @@ jobs:
             if: github.event.inputs.push == 'true'
             env:
               REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-              REPOSITORY: "station.dev.server"
+              REPOSITORY: "station.${{ github.event.inputs.environment }}.server"
               IMAGE_TAG: ${{ github.sha }}-build${{ github.run_number }}
             run: |
               docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .

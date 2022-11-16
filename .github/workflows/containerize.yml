@@ -50,7 +50,7 @@ jobs:
             if: github.event.inputs.push == 'true'
             env:
               REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-              REPOSITORY: "station.${{ github.event.inputs.environment }}.server"
+              REPOSITORY: "station-${{ github.event.inputs.environment }}-server"
               IMAGE_TAG: ${{ github.sha }}-build${{ github.run_number }}
             run: |
               docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .

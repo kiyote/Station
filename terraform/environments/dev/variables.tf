@@ -1,9 +1,4 @@
 
-variable "aws_region" {
-  description = "The region these resources are being deployed to."
-  type = string
-}
-
 variable "aws_deployment_role" {
   description = "The role to assume in order to deploy AWS resources."
   type = string

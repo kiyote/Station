@@ -30,3 +30,26 @@ resource "aws_ecr_repository_policy" "repository" {
   repository = aws_ecr_repository.repository.name
   policy     = data.aws_iam_policy_document.repository.json
 }
+
+resource "aws_ecr_repository" "lifecycle" {
+  repository = aws_ecr_repository.repository
+
+  policy = <<EOF
+  {
+    "rules": [
+      { 
+        "rulePriority": 1,
+        "description": "Keep just 1 image.",
+        "selection": {
+          "tagStatus": "any",
+          "countType": "imageCountMoreThan",
+          "countNumber": 1
+        }
+        "action": {
+          "type": "expire"
+        }
+      }
+    ]
+  }
+  EOF
+}

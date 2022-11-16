@@ -31,7 +31,7 @@ resource "aws_ecr_repository_policy" "repository" {
   policy     = data.aws_iam_policy_document.repository.json
 }
 
-resource "aws_ecr_repository" "lifecycle" {
+resource "aws_ecr_lifecycle_policy" "lifecycle" {
   repository = aws_ecr_repository.repository
 
   policy = <<EOF

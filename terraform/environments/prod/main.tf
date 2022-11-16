@@ -12,7 +12,7 @@ terraform {
 
 # For deploying AWS resources
 provider "aws" {
-  region = var.aws_region
+  region = "ca-central-1"
 
   assume_role {
     role_arn = var.aws_deployment_role
@@ -34,4 +34,6 @@ module "server" {
 
   object_prefix = var.object_prefix
   container_publishing_role = var.aws_deployment_role
+  image_prefix = var.image_prefix
+  server_image = "e3f4d3cbdb596378efbd02d6bc2164065f05446d-build46"
 }

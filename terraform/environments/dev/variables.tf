@@ -23,3 +23,8 @@ variable "cloudfront_prefix" {
   description = "Defines the ARN prefix for cloudfront distributions in this account."
   type = string
 }
+
+variable "image_prefix" {
+  description = "Defines the URI prefix for accessing containers from the registry."
+  type = string
+}

@@ -79,7 +79,7 @@ locals {
 }
 
 resource "aws_ecs_task_definition" "server" {
-  family = local.service_name
+  family = local.component_name
 
   cpu                = 256
   execution_role_arn = aws_iam_role.execution.arn

@@ -87,7 +87,7 @@ resource "aws_ecs_task_definition" "server" {
   task_role_arn      = aws_iam_role.task.arn
 
   container_definitions = jsonencode([
-    local.webdav_container_definition
+    local.server_container_definition
   ])
 
   network_mode = "awsvpc"

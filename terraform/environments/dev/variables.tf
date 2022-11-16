@@ -19,6 +19,11 @@ variable "object_prefix" {
   type = string  
 }
 
+variable "service_prefix" {
+  description = "A value to add as a prefix to all deployed resources in order to disambiguate stage (prod vs dev) that cannot use `.`."
+  type = string  
+}
+
 variable "cloudfront_prefix" {
   description = "Defines the ARN prefix for cloudfront distributions in this account."
   type = string

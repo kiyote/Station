@@ -7,37 +7,6 @@ resource "aws_cloudwatch_log_group" "logs" {
   retention_in_days = 30
 }
 
-locals {
-  image_prefix = "${var.image_prefix}/${local.component_name}"
-  server_container_definition = {
-    essential = true
-    image     = "${local.image_prefix}:${var.server_image}"
-    logConfiguration = {
-      logDriver = "awslogs"
-      options = {
-        "awslogs-group" : aws_cloudwatch_log_group.logs.name
-        "awslogs-region" : data.aws_region.current.name
-        "awslogs-stream-prefix" : local.component_name
-      }
-    }
-    name = local.component_name
-    portMappings = [
-    {
-      hostPort      = 443
-      protocol      = "tcp"
-      containerPort = 443
-    }]
-    ulimits = [
-    {
-      # Default for Fargate is low (1k/4k)
-      # https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_Ulimit.html
-      name      = "nofile"
-      softLimit = 1024
-      hardLimit = 65535
-    }]
-  }
-}
-
 data "aws_iam_policy_document" "execution_assume_role" {
   statement {
     effect = "Allow"
@@ -78,8 +47,39 @@ resource "aws_iam_role" "task" {
   assume_role_policy = data.aws_iam_policy_document.task_assume_role.json
 }
 
+locals {
+  image_prefix = "${var.image_prefix}/${local.component_name}"
+  server_container_definition = {
+    essential = true
+    image     = "${local.image_prefix}:${var.server_image}"
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        "awslogs-group" : aws_cloudwatch_log_group.logs.name
+        "awslogs-region" : data.aws_region.current.name
+        "awslogs-stream-prefix" : local.component_name
+      }
+    }
+    name = local.component_name
+    portMappings = [
+    {
+      hostPort      = 443
+      protocol      = "tcp"
+      containerPort = 443
+    }]
+    ulimits = [
+    {
+      # Default for Fargate is low (1k/4k)
+      # https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_Ulimit.html
+      name      = "nofile"
+      softLimit = 1024
+      hardLimit = 65535
+    }]
+  }
+}
+
 resource "aws_ecs_task_definition" "server" {
-  family = local.component_name
+  family = local.service_name
 
   cpu                = 256
   execution_role_arn = aws_iam_role.execution.arn

@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       push:
-        description: 'Whether or not to push the docker image.'
+        description: 'Push to ECR'
         required: true
         type: choice
         default: 'true'

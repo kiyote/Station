@@ -34,22 +34,20 @@ resource "aws_ecr_repository_policy" "repository" {
 resource "aws_ecr_lifecycle_policy" "lifecycle" {
   repository = aws_ecr_repository.repository.name
 
-  policy = <<EOF
-  {
-    "rules": [
+  policy = jsonencode({
+    rules = [
       { 
-        "rulePriority": 1,
-        "description": "Keep just 1 image.",
-        "selection": {
-          "tagStatus": "any",
-          "countType": "imageCountMoreThan",
-          "countNumber": 1
+        rulePriority = 1,
+        description = "Keep just 1 image.",
+        selection = {
+          tagStatus = "any",
+          countType = "imageCountMoreThan",
+          countNumber = 1
         },
-        "action": {
-          "type": "expire"
+        action = {
+          type = "expire"
         }
       }
     ]
-  }
-  EOF
+  })
 }

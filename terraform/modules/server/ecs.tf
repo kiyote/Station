@@ -96,3 +96,61 @@ resource "aws_ecs_task_definition" "server" {
     "FARGATE"
   ]
 }
+
+resource "aws_lb_target_group" "server" {
+
+  name_prefix = local.component_name
+  port        = 443
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = var.vpc.vpc_id
+
+  health_check {
+    path    = "/.healthcheck"
+    matcher = "200"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_security_group" "server" {
+  name        = "${local.component_name}-service"
+  vpc_id      = var.vpc.vpc_id
+}
+
+resource "aws_security_group_rule" "server_egress" {
+  security_group_id = aws_security_group.server.id
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+
+resource "aws_ecs_service" "server" {
+
+  cluster         = aws_ecs_cluster.server.id
+  name            = local.component_name
+  task_definition = aws_ecs_task_definition.server.arn
+
+  launch_type         = "FARGATE"
+  scheduling_strategy = "REPLICA"
+  desired_count       = 1
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.server.arn
+    container_name   = local.component_name
+    container_port   = 443
+  }
+
+  network_configuration {
+    assign_public_ip = true
+    security_groups = [
+      aws_security_group.server.id
+    ]
+    subnets = var.vpc.public_subnet_ids
+  }
+}

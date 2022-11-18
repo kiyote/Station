@@ -142,7 +142,7 @@ resource "aws_lb_target_group" "server" {
 
   name_prefix = "server"
   port        = 443
-  protocol    = "HTTP"
+  protocol    = "HTTPS"
   target_type = "ip"
   vpc_id      = aws_vpc.instance.id
 
@@ -182,7 +182,7 @@ resource "aws_alb" "server" {
 resource "aws_alb_listener" "server" {
   load_balancer_arn = aws_alb.server.arn
   port = 443
-  protocol = "HTTP"
+  protocol = "HTTPS"
   default_action {
     type = "forward"
     target_group_arn = aws_lb_target_group.server.arn

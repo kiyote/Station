@@ -151,6 +151,6 @@ resource "aws_ecs_service" "server" {
     security_groups = [
       aws_security_group.server.id
     ]
-    subnets = public_subnet_ids.value
+    subnets = [for subnet in aws_subnet.public : subnet.id]
   }
 }

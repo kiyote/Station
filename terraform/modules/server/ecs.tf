@@ -197,7 +197,7 @@ resource "aws_ecs_service" "server" {
 
   launch_type         = "FARGATE"
   scheduling_strategy = "REPLICA"
-  desired_count       = 1
+  desired_count       = local.desired_count
 
   load_balancer {
     target_group_arn = aws_lb_target_group.server.arn

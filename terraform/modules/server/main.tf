@@ -5,5 +5,7 @@ locals {
     "ca-central-1a" = 1
     "ca-central-1b" = 2
     "ca-central-1d" = 3
-  }    
+  }
+
+  desired_count = 0
 }

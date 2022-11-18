@@ -63,6 +63,26 @@ data "aws_iam_policy_document" "execution_ecr" {
   }
 }
 
+resource "aws_iam_role_policy" "execution_logs" {
+  name   = "Logs"
+  role   = aws_iam_role.execution.id
+  policy = data.aws_iam_policy_document.execution_logs.json
+}
+
+data "aws_iam_policy_document" "execution_logs" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "logs:PutLogEvents",
+      "logs:CreateLogStream",
+    ]
+    resources = [
+      "${aws_cloudwatch_log_group.logs.arn}:*"
+    ]
+  }
+}
+
+
 resource "aws_iam_role" "task" {
   name               = "${local.component_name}-ecs-task"
   assume_role_policy = data.aws_iam_policy_document.task_assume_role.json

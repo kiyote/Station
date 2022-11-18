@@ -170,6 +170,16 @@ resource "aws_security_group_rule" "server_egress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "alb_https_ingress" {
+  security_group_id = aws_security_group.server.id
+  type              = "ingress"
+
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port   = 443
+  to_port     = 443
+  protocol    = "tcp"
+}
+
 resource "aws_alb" "server" {
   name = local.component_name
   internal = false

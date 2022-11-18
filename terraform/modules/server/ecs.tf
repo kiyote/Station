@@ -106,7 +106,6 @@ resource "aws_lb_target_group" "server" {
   vpc_id      = aws_vpc.instance.id
 
   health_check {
-    enabled = false
     path    = "/.healthcheck"
     matcher = "200"
   }

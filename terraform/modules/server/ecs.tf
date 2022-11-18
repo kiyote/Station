@@ -106,6 +106,7 @@ resource "aws_lb_target_group" "server" {
   vpc_id      = aws_vpc.instance.id
 
   health_check {
+    enabled = false
     path    = "/.healthcheck"
     matcher = "200"
   }
@@ -129,6 +130,24 @@ resource "aws_security_group_rule" "server_egress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_alb" "server" {
+  name = local.component_name
+  internal = false
+  load_balancer_type = "application"
+
+  subnets = [for subnet in aws_subnet.public : subnet.id]
+  security_groups = [aws_security_group.server.id]
+}
+
+resource "aws_alb_listener" "server" {
+  load_balancer_arn = aws_alb.server.arn
+  port = 443
+  protocol = "HTTP"
+  default_action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.server.arn
+  }
+}
 
 resource "aws_ecs_service" "server" {
 

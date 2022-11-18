@@ -99,7 +99,7 @@ resource "aws_ecs_task_definition" "server" {
 
 resource "aws_lb_target_group" "server" {
 
-  name_prefix = local.component_name
+  name_prefix = "server"
   port        = 443
   protocol    = "HTTP"
   target_type = "ip"

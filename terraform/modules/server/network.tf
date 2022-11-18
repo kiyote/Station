@@ -50,6 +50,13 @@ resource "aws_route_table" "public" {
 	vpc_id = aws_vpc.instance.id
 }
 
+data "public_subnet_ids" {
+	value = [
+		for key, subnet in aws_subnet.public:
+		subnet.id
+	]
+}
+
 resource "aws_route_table_association" "public" {
 	for_each = local.availability_zone_subnets
 

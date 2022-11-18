@@ -103,7 +103,7 @@ resource "aws_lb_target_group" "server" {
   port        = 443
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = var.vpc.vpc_id
+  vpc_id      = aws_vpc.instance.id
 
   health_check {
     path    = "/.healthcheck"
@@ -117,7 +117,7 @@ resource "aws_lb_target_group" "server" {
 
 resource "aws_security_group" "server" {
   name        = "${local.component_name}-service"
-  vpc_id      = var.vpc.vpc_id
+  vpc_id      = aws_vpc.instance.id
 }
 
 resource "aws_security_group_rule" "server_egress" {
@@ -151,6 +151,6 @@ resource "aws_ecs_service" "server" {
     security_groups = [
       aws_security_group.server.id
     ]
-    subnets = var.vpc.public_subnet_ids
+    subnets = aws_vpc.instance.public_subnet_ids
   }
 }

@@ -35,5 +35,5 @@ module "server" {
   object_prefix = var.object_prefix
   container_publishing_role = var.github_action_role
   image_prefix = var.image_prefix
-  server_image = "eea250eaf5c6844547914c547095deb6cc51cbf5-build47"
+  server_image = "adc443dd5fb2c01090bb35cb6eae042aa6ef7fe5-build48"
 }

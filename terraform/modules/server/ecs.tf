@@ -42,6 +42,27 @@ data "aws_iam_policy_document" "task_assume_role" {
   }
 }
 
+resource "aws_iam_role_policy" "execution_ecr" {
+  name   = "ECR"
+  role   = aws_iam_role.execution.id
+  policy = data.aws_iam_policy_document.execution_ecr.json
+}
+
+data "aws_iam_policy_document" "execution_ecr" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+    ]
+    resources = [
+      "*"
+    ]
+  }
+}
+
 resource "aws_iam_role" "task" {
   name               = "${local.component_name}-ecs-task"
   assume_role_policy = data.aws_iam_policy_document.task_assume_role.json

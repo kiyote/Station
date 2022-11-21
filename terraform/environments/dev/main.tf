@@ -29,6 +29,7 @@ module "webclient" {
   cloudfront_prefix = var.cloudfront_prefix
 }
 
+/*
 module "server" {
   source = "../../modules/server"
 
@@ -37,3 +38,4 @@ module "server" {
   image_prefix = var.image_prefix
   server_image = "adc443dd5fb2c01090bb35cb6eae042aa6ef7fe5-build48"
 }
+*/

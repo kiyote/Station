@@ -13,7 +13,7 @@ builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builde
 
 // Create the gRPC client
 builder.Services.AddSingleton( services => {
-	string serverAddress = builder.Configuration.GetSection( "Server" )["Address"];
+	string serverAddress = builder.Configuration.GetSection( "Server" )["Address"] ?? "127.0.0.1";
 	string baseUri = $"https://{serverAddress}/";
 	var channel = GrpcChannel.ForAddress(
 		baseUri,

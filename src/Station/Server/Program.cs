@@ -7,7 +7,7 @@ builder.Services.AddSingleton<GrpcService>();
 
 builder.Services.AddGrpc();
 builder.Services.AddCors( o => o.AddPolicy( "AllowAll", builder => {
-	builder.AllowAnyOrigin()
+	_ = builder.AllowAnyOrigin()
 		   .AllowAnyMethod()
 		   .AllowAnyHeader()
 		   .WithExposedHeaders( "Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding" );
@@ -15,17 +15,17 @@ builder.Services.AddCors( o => o.AddPolicy( "AllowAll", builder => {
 builder.Services.AddControllers();
 builder.Services.AddResponseCompression();
 builder.WebHost.UseUrls(
-	new string[] {
+	[
 		"https://+:443",
-	}
-	);
+	]
+);
 
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment()) {
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+	_ = app.UseHsts();
 }
 
 app.UseResponseCompression();
@@ -34,8 +34,8 @@ app.UseRouting();
 app.UseGrpcWeb();
 app.UseCors();
 app.UseEndpoints( endpoints => {
-	app.MapControllers();
-	endpoints.MapGrpcService<GrpcService>()
+	_ = app.MapControllers();
+	_ = endpoints.MapGrpcService<GrpcService>()
 		.EnableGrpcWeb()
 		.RequireCors( "AllowAll" );
 } );

@@ -101,7 +101,7 @@ jobs:
 
       - name: Setup .NET
         if: github.event.inputs.webclient == 'true'
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
             6.0.x
